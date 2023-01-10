@@ -10,7 +10,7 @@ class FriendController extends Controller
 {
     public function all()
     {
-        return Friend::where('user_id', Auth::user()->id)->all();
+        return Friend::all()->where('user_id', Auth::user()->id);
     }
     public function index($id)
     {
@@ -26,12 +26,10 @@ class FriendController extends Controller
             'friend_id' => $request->input('friend_id'),
         ]);
     }
-    public function delete($id)
+    public function destroy($id)
     {
-        $friend = Friend::find([
-            'user_id' => Auth::user()->id,
-            'friend_id' => $id,
-        ]);
+        $friend = Friend::where('friend_id',$id)->where('user_id', Auth::user()->id);
         $friend->delete();
+        return "Друг удален";
     }
 }

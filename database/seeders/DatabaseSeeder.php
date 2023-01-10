@@ -23,13 +23,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $category = Category::factory()->create([
-            'name' => 'Спорт',
-        ]);
-        Post::factory()->create([
-            'content' => 'test 1',
-            'images' => 'image1',
-            'category_id' => $category->id
-        ]);
+        $category = Category::factory(5)->create();
+        
     }
 }

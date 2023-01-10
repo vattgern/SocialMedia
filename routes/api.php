@@ -2,10 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FriendController;
-use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/friends', 'all');
         Route::get('/friends/{id}', 'index');
         Route::post('/friends/add', 'add');
-        Route::delete('/friends/delete', 'delete');
+        Route::delete('/friends/{id}', 'destroy');
     });
+    // Добавление категории
+    Route::post('/categories/add', [UserController::class, 'addCategory']);
 });
 Route::post('/signUp', [AuthController::class, 'signUp']);
 Route::post('/signIn', [AuthController::class, 'signIn']);
@@ -51,3 +54,7 @@ Route::controller(PostController::class)->group(function () {
     Route::put('/posts/{id}', 'update');
     Route::delete('/posts/{id}', 'destroy');
 });
+
+// Пользователи
+Route::get('/users', [UserController::class, 'all']);
+Route::get('/users/{id}', [UserController::class, 'show']);

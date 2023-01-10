@@ -3,10 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Friend;
+use App\Models\UserCategory;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -39,6 +41,9 @@ class User extends Authenticatable
     ];
     public function friends()
     {
-        return $this->belongsTo(Friend::class);
+        return $this->HasMany(Friend::class, 'user_id', 'id');
+    }
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'user_categories','user_id','id');
     }
 }
