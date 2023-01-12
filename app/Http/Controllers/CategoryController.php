@@ -19,8 +19,16 @@ class CategoryController extends Controller
     }
     public function store(Request $request)
     {
+        if(Category::where('name', $request->input('name'))->exists()){
+            return response()->json([
+                'message' => 'Такая категория уже создана',
+            ]);
+        }
         $category = Category::create($request->all());
-        return new CategoryResource($category);
+        return response()->json([
+            'data' => new CategoryResource($category),
+            'message' => 'Категория создана'
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -32,5 +40,8 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $category->delete();
+        return response()->json([
+           'message' => 'Категория удалена',
+        ]);
     }
 }

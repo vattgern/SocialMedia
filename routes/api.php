@@ -1,12 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\FriendController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\Chat\MessageController;
+use App\Http\Controllers\API\Chat\RoomController;
+use App\Http\Controllers\API\Chat\UserRoomController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FriendController;
+use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +33,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/friends/add', 'add');
         Route::delete('/friends/{id}', 'destroy');
     });
-    // Добавление категории
+    // Добавление категории предпочтений
     Route::post('/categories/add', [UserController::class, 'addCategory']);
+    // Отправить сообщение
+    Route::post('/message/create', [MessageController::class,'store']);
+    //Удаление сообщения
+    Route::delete('/message/{id}', [MessageController::class,'destroy']);
+    // Создание поста
+    Route::post('/posts/create', [PostController::class, 'store']);
+    // Удаление поста
+    Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+    // Запросы в друзья
+    Route::post('/friends/submit', [UserController::class,'friendRequest']);
 });
 Route::post('/signUp', [AuthController::class, 'signUp']);
 Route::post('/signIn', [AuthController::class, 'signIn']);
@@ -50,11 +62,16 @@ Route::controller(CategoryController::class)->group(function () {
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'all');
     Route::get('/posts/{id}', 'index');
-    Route::post('/posts/create', 'store');
     Route::put('/posts/{id}', 'update');
-    Route::delete('/posts/{id}', 'destroy');
 });
 
 // Пользователи
 Route::get('/users', [UserController::class, 'all']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+
+// Чат
+// Комнаты
+Route::get('/rooms', [RoomController::class, 'all']);
+Route::get('/rooms/{id}', [RoomController::class, 'index']);
+// Участники комнаты
+Route::get('/rooms/{id}/participants',[UserRoomController::class,'index']);
