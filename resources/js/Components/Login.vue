@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-login">
         <div class="screen">
             <div class="screen__content">
                 <form class="login">
@@ -37,6 +37,8 @@ export default {
             email: '',
             password: '',
         }
+    },
+    mounted(){
     },
     methods:{
         login(){
@@ -81,7 +83,7 @@ body {
     background: linear-gradient(90deg, #C7C5F4, #776BCC);
 }
 
-.container {
+.container-login {
     display: flex;
     align-items: center;
     justify-content: center;

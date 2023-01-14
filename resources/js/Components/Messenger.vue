@@ -58,7 +58,6 @@
 
 <script>
 import api from '../api';
-import server from '../../../server';
 
 export default {
     name: "Messenger",
@@ -71,16 +70,6 @@ export default {
         }
     },
     mounted() {
-        const ws = new WebSocket('ws://127.0.0.1:8000');
-        ws.onmessage = (message) => {
-
-        };
-        const send = (event) => {
-            // Сообщение и имя пользователя
-
-            ws.send();
-
-        }
 
         this.getUser();
         this.getRooms();
