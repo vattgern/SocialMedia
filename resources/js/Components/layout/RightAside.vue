@@ -225,10 +225,12 @@
 /* aside-right section open */
 
 .right-aside {
+  position: relative;
     width: 360px;
   }
   .logo-block {
-    width: 100%;
+    position: fixed;
+    width: 360px;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     background-color: var(--second-bg-color);
@@ -236,8 +238,9 @@
   }
   
   .categories {
-    width: 100%;
-    margin-top: 60px;
+    position: fixed;
+    width: 360px;
+    margin-top: 220px;
   }
   .categories h1 {
     font-style: normal;

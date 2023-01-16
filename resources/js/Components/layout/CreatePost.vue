@@ -67,6 +67,7 @@
     /* Open create post section */
     
     .new-post{
+      position: relative;      
         width: 720px;
         height: 70px;
         background: var(--main-bg-color);
@@ -76,6 +77,7 @@
         padding-right: 20px;
         padding-bottom: 10px;
         padding-top: 5px;
+        z-index: 5;
     }
     .new-post > div:first-child{
         display: flex;
@@ -142,6 +144,7 @@
         font-size: 14px;
         line-height: 16px;
         color: var(--second-txt-color);
+        border: none;
     }
     .active-post .close-btn{
         display: block;
@@ -157,6 +160,7 @@
         color: var(--second-txt-color);
         position: relative;
         z-index: 10;
+        border: none;
     }
     .new-post img:last-child{
         width: 34px;

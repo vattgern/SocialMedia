@@ -25,12 +25,12 @@
                     <p>Моя страница</p>
                 </li>
             </router-link>
-          <a href="">
+            <router-link :to="{ name: 'main' }">
             <li>
               <img src="/img/News.png" alt="No Ethernet" />
               <p>Новости</p>
             </li>
-          </a>
+         </router-link>
           <a href="">
             <li>
               <img src="/img/Messaging.png" alt="No Ethernet" />
@@ -89,7 +89,11 @@ export default {
 <style scoped>
     /* Aside-left section open */
 
+    aside{
+      width: 360px;
+    }
 .mini-profile {
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,11 +171,16 @@ export default {
 }
 
 nav {
+  position: fixed;
   width: 360px;
   background: var(--second-bg-color);
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
   margin-top: 40px;
+  top: 460px;
+  /* top: 47.5%;
+  
+  top: 78.5%;*/
 }
 nav ul {
   display: flex;
@@ -200,12 +209,14 @@ nav ul a li:not(.first-li) {
 }
 
 .possible-friends {
+  position: fixed;
   width: 360px;
   margin-top: 40px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
   background-color: var(--second-bg-color);
   padding: 20px;
+  top: 760px;
 }
 .possible-friends h1 {
   font-style: normal;
