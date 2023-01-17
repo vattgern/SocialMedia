@@ -31,12 +31,12 @@
               <p>Новости</p>
             </li>
          </router-link>
-          <a href="">
+         <router-link :to="{ name: 'messenger' }">
             <li>
               <img src="/img/Messaging.png" alt="No Ethernet" />
               <p>Сообщения</p>
             </li>
-          </a>
+          </router-link>
           <a href="">
             <li>
               <img src="/img/People.png" alt="No Ethernet" />
