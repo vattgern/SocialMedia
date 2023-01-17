@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 import { createApp } from 'vue';
 import store from './store';
 import router from './router';
@@ -9,3 +9,6 @@ createApp(Main)
     .use(router)
     .use(store)
     .mount('#app');
+
+
+

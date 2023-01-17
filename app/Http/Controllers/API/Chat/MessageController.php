@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Chat;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -16,11 +17,15 @@ class MessageController extends Controller
         return Message::find($id);
     }
     public function store(Request $request){
+        $user = Auth::user();
         $message = Message::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
             'room_id' => $request->input('room_id'),
             'message' => $request->input('message'),
         ]);
+
+        broadcast(new MessageSent($user, $message))->toOthers();
+
         return response()->json([
            'message' => 'сообщение отправлено',
             'data' => $message

@@ -70,6 +70,10 @@ Route::get('/users', [UserController::class, 'all']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 
 // Чат
+// Для ТЕСТА
+// ----------------
+Route::get('/messages', [MessageController::class,'all']);
+// ----------------
 // Комнаты
 Route::get('/rooms', [RoomController::class, 'all']);
 Route::get('/rooms/{id}', [RoomController::class, 'index']);

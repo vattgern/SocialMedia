@@ -18,37 +18,39 @@
                     </div>
                     <div class="timer">12 sec</div>
                 </div>
-                <div class="discussion" v-for="room in rooms" @click="setFocusRoom(room)">
-                    <div class="photo" style="background-image: url(https://i.pinimg.com/originals/a9/26/52/a926525d966c9479c18d3b4f8e64b434.jpg);">
-                        <div class="online"></div>
-                    </div>
-                    <div class="desc-contact">
-                        <p class="name">{{ room.name }}</p>
-                        <p class="message">some text</p>
-                    </div>
-                    <div class="timer">Добавить время</div>
-                </div>
+<!--                <div class="discussion" v-for="room in rooms" @click="setFocusRoom(room)">-->
+<!--                    <div class="photo" style="background-image: url(https://i.pinimg.com/originals/a9/26/52/a926525d966c9479c18d3b4f8e64b434.jpg);">-->
+<!--                        <div class="online"></div>-->
+<!--                    </div>-->
+<!--                    <div class="desc-contact">-->
+<!--                        <p class="name">{{ room.name }}</p>-->
+<!--                        <p class="message">some text</p>-->
+<!--                    </div>-->
+<!--                    <div class="timer">Добавить время</div>-->
+<!--                </div>-->
 
             </section>
             <section class="chat" v-show="focusRoom !== undefined">
                 <div class="header-chat">
                     <i class="icon fa fa-user-o" aria-hidden="true"></i>
-                    <p class="name">{{ focusRoom.name }}</p>
+<!--                    <p class="name">{{ focusRoom.name }}</p>-->
+                    <p class="name">Комната чата</p>
                     <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
                 </div>
                 <div class="messages-chat">
-                    <div class="message text-only" v-for="message in focusRoom.messages">
+                    <div class="message text-only" v-for="message in messages">
                         <div class="response" v-if="message['user_id'] === this.$store.state.userInfo.id">
-                            <p class="text"> {{ message['user_id'] }}</p>
+                            <p class="text"> {{ message['message'] }}</p>
                         </div>
                         <div v-else>
-                            <p class="text"> {{ message['user_id'] }} </p>
+                            <p class="text"> {{ message['message'] }} </p>
                         </div>
                     </div>
                 </div>
                 <div class="footer-chat">
                     <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
                     <input type="text" v-model="textMessage" class="write-message" placeholder="Type your message here">
+                    <button @click.prevent="sendMessage" >Отправить</button>
                     <i class="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
                 </div>
             </section>
@@ -58,7 +60,6 @@
 
 <script>
 import api from '../api';
-import server from '../../../server';
 
 export default {
     name: "Messenger",
@@ -71,20 +72,17 @@ export default {
         }
     },
     mounted() {
-        const ws = new WebSocket('ws://127.0.0.1:8000');
-        ws.onmessage = (message) => {
-
-        };
-        const send = (event) => {
-            // Сообщение и имя пользователя
-
-            ws.send();
-
-        }
-
-        this.getUser();
-        this.getRooms();
-        console.log(this.focusRoom.isEmpty);
+        //this.getUser();
+        //this.getRooms();
+        //console.log(this.focusRoom.isEmpty);
+        this.fetchMessages();
+        window.Echo.channel('chat')
+            .listen('MessageSent', (e) => {
+               this.messages.push({
+                  message: e.message.message,
+                  user: e.user,
+               });
+            });
     },
     methods: {
         getUser(){
@@ -102,8 +100,21 @@ export default {
             console.log(this.focusRoom);
             console.log(this.$store.state.userInfo);
         },
+        fetchMessages(){
+          api.get('/api/messages').then(response => {
+              this.messages = response.data;
+          });
+        },
         sendMessage(){
-            api.post('/')
+            this.messages.push(this.textMessage);
+            api.post('/api/message/create', {
+                message: this.textMessage,
+                'room_id': 1,
+            })
+                .then(response => {
+                    console.log(response.data);
+                });
+            this.textMessage = '';
         }
     }
 }
