@@ -40,10 +40,10 @@
                 <div class="messages-chat">
                     <div class="message text-only" v-for="message in messages">
                         <div class="response" v-if="message['user_id'] === this.$store.state.userInfo.id">
-                            <p class="text"> {{ message['message'] }}</p>
+                            <p class="text">{{ message['message'] }}</p>
                         </div>
                         <div v-else>
-                            <p class="text"> {{ message['message'] }} </p>
+                            <p class="text">{{ message['message'] }} </p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ export default {
         }
     },
     mounted() {
-        //this.getUser();
+        this.getUser();
         //this.getRooms();
         //console.log(this.focusRoom.isEmpty);
         this.fetchMessages();
@@ -80,8 +80,9 @@ export default {
             .listen('MessageSent', (e) => {
                this.messages.push({
                   message: e.message.message,
-                  user: e.user,
+                  'user_id': e.user.id,
                });
+               console.log(e);
             });
     },
     methods: {
@@ -103,10 +104,14 @@ export default {
         fetchMessages(){
           api.get('/api/messages').then(response => {
               this.messages = response.data;
+              console.log(this.messages);
           });
         },
         sendMessage(){
-            this.messages.push(this.textMessage);
+            // this.messages.push({
+            //     'user_id': this.$store.state.userInfo.id,
+            //     message: this.textMessage,
+            // });
             api.post('/api/message/create', {
                 message: this.textMessage,
                 'room_id': 1,
