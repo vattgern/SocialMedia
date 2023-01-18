@@ -1,9 +1,9 @@
 <template>
-    <Header></Header>
+    <Header v-show="this.$route.path != '/'"></Header>
     <main>
         <router-view></router-view>
     </main>
-    <RightAside></RightAside> 
+    <RightAside  v-show="this.$route.path != '/'"></RightAside> 
 </template>
 
 <script>
@@ -17,6 +17,9 @@ export default {
         return {
 
         }
+    },
+    mounted(){
+        console.log(this.$route.path);
     },
     components: {
         Header,
