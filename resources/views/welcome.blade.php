@@ -31,7 +31,7 @@ html{
 :root {
   --main-bg-color: #272525;
   --second-bg-color: #332f2f;
-  --second-color: #d17a28;
+  --second-color: #5EC7DE;
   --main-txt-color: #e5e5e5;
   --second-txt-color: #ffffff;
   --in-input-txt-color: #959595;
