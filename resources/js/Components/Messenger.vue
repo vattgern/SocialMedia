@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import api from '../api';
 import MessengerTop from './layout/MessengerTop.vue';
 
 export default {
