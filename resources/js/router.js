@@ -9,12 +9,12 @@ export default createRouter({
    history: createWebHistory(),
    routes: [
        {
-           path: '/login',
+           path: '/',
            name: 'login',
            component: Login,
        },
        {
-           path: '/',
+           path: '/index',
            name: 'main',
            component: Index
        },

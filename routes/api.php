@@ -73,6 +73,7 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 // Для ТЕСТА
 // ----------------
 Route::get('/messages', [MessageController::class,'all']);
+Route::get('/room/{id}/messages', [MessageController::class, 'getMessages']);
 // ----------------
 // Комнаты
 Route::get('/rooms', [RoomController::class, 'all']);

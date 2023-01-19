@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API\Chat;
 
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoomResource;
 use App\Models\Message;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +17,9 @@ class MessageController extends Controller
     }
     public function index($id){
         return Message::find($id);
+    }
+    public function getMessages($id){
+        return new RoomResource(Room::find($id));
     }
     public function store(Request $request){
         $user = Auth::user();

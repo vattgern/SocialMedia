@@ -18,23 +18,22 @@
                     </div>
                     <div class="timer">12 sec</div>
                 </div>
-<!--                <div class="discussion" v-for="room in rooms" @click="setFocusRoom(room)">-->
-<!--                    <div class="photo" style="background-image: url(https://i.pinimg.com/originals/a9/26/52/a926525d966c9479c18d3b4f8e64b434.jpg);">-->
-<!--                        <div class="online"></div>-->
-<!--                    </div>-->
-<!--                    <div class="desc-contact">-->
-<!--                        <p class="name">{{ room.name }}</p>-->
-<!--                        <p class="message">some text</p>-->
-<!--                    </div>-->
-<!--                    <div class="timer">Добавить время</div>-->
-<!--                </div>-->
+                <div class="discussion" v-for="room in rooms" @click="setFocusRoom(room)">
+                    <div class="photo" style="background-image: url(https://i.pinimg.com/originals/a9/26/52/a926525d966c9479c18d3b4f8e64b434.jpg);">
+                        <div class="online"></div>
+                    </div>
+                    <div class="desc-contact">
+                        <p class="name">{{ room.name }}</p>
+                        <p class="message">some text</p>
+                    </div>
+                    <div class="timer">Добавить время</div>
+                </div>
 
             </section>
             <section class="chat" v-show="focusRoom !== undefined">
                 <div class="header-chat">
                     <i class="icon fa fa-user-o" aria-hidden="true"></i>
-<!--                    <p class="name">{{ focusRoom.name }}</p>-->
-                    <p class="name">Комната чата</p>
+                    <p class="name">{{ focusRoom.name }}</p>
                     <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
                 </div>
                 <div class="messages-chat">
@@ -50,7 +49,7 @@
                 <div class="footer-chat">
                     <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
                     <input type="text" v-model="textMessage" class="write-message" placeholder="Type your message here">
-                    <button @click.prevent="sendMessage" >Отправить</button>
+                    <button @click.prevent="sendMessage(focusRoom.id)" >Отправить</button>
                     <i class="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
                 </div>
             </section>
@@ -73,17 +72,9 @@ export default {
     },
     mounted() {
         this.getUser();
-        //this.getRooms();
-        //console.log(this.focusRoom.isEmpty);
-        this.fetchMessages();
-        window.Echo.channel('chat')
-            .listen('MessageSent', (e) => {
-               this.messages.push({
-                  message: e.message.message,
-                  'user_id': e.user.id,
-               });
-               console.log(e);
-            });
+        this.getRooms();
+
+
     },
     methods: {
         getUser(){
@@ -93,28 +84,43 @@ export default {
         },
         getRooms(){
             api('/api/rooms').then(response => {
-                this.rooms = response.data.data;
+                let rooms = response.data.data;
+                //console.log(rooms);
+                for (let i = 0; i < rooms.length;i++){
+                    for (let index = 0; index < rooms[i].participants.length; index++){
+                        console.log(rooms[i].participants[index]['user_id']);
+                        if(this.$store.state.userInfo.id === rooms[i].participants[index]['user_id']){
+                            this.rooms.push(rooms[i]);
+                        }
+                    }
+                }
+                //this.rooms = response.data.data;
             })
         },
         setFocusRoom(room){
             this.focusRoom = room;
-            console.log(this.focusRoom);
-            console.log(this.$store.state.userInfo);
+
+            this.fetchMessages(room.id);
+            window.Echo.channel('chat')
+                .listen('MessageSent', (e) => {
+                    this.messages.push({
+                        message: e.message.message,
+                        'user_id': e.user.id,
+                    });
+                    console.log(e);
+                });
         },
-        fetchMessages(){
-          api.get('/api/messages').then(response => {
-              this.messages = response.data;
+        fetchMessages(id){
+          api.get(`/api/room/${id}/messages`).then(response => {
+              this.messages = [];
+              this.messages = response.data.data.messages;
               console.log(this.messages);
           });
         },
-        sendMessage(){
-            // this.messages.push({
-            //     'user_id': this.$store.state.userInfo.id,
-            //     message: this.textMessage,
-            // });
+        sendMessage(id){
             api.post('/api/message/create', {
                 message: this.textMessage,
-                'room_id': 1,
+                'room_id': id,
             })
                 .then(response => {
                     console.log(response.data);

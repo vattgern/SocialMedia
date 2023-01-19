@@ -15,7 +15,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->all())) {
             return response()->json([
                 'msg' => 'Пользователь уже создан',
-                'code' => 200,
+                'status' => false,
             ]);
         }
         $user = User::create([
@@ -23,7 +23,9 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'avatar' => 'default',
-            'category' => null
+            'category' => null,
+            'background' => 'default',
+            'city' => null,
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([

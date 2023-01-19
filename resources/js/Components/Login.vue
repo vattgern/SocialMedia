@@ -1,30 +1,48 @@
 <template>
-    <div class="container">
-        <div class="screen">
-            <div class="screen__content">
-                <form class="login">
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        <input type="text" v-model="email" class="login__input" placeholder="Email">
-                    </div>
-                    <div class="login__field">
-                        <i class="login__icon fas fa-lock"></i>
-                        <input type="password" v-model="password" class="login__input" placeholder="Password">
-                    </div>
-                    <button class="button login__submit" type="submit" @click.prevent="login">
-                        <span class="button__text">Log In Now</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>
-                </form>
-            </div>
-            <div class="screen__background">
-                <span class="screen__background__shape screen__background__shape4"></span>
-                <span class="screen__background__shape screen__background__shape3"></span>
-                <span class="screen__background__shape screen__background__shape2"></span>
-                <span class="screen__background__shape screen__background__shape1"></span>
-            </div>
+    <form action="" class="login">
+        <h1>Авторизация</h1>
+        <label for="">Введите почту</label>
+        <input type="email" v-model="login.email" required placeholder="Введите e-mail">
+        <label for="">Введите пароль</label>
+        <input type="password" v-model="login.password" placeholder="Введите пароль" required>
+        <button type="submit" @click.prevent="signIn">Войти</button>
+    </form>
+
+    <svg :class="focusForm === 'login' ? 'refresh' : 'refresh refresh-rotate'" @click.prevent="setFocusForm" width="77" height="77" viewBox="0 0 77 77" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M38.7534 7.21875C23.3743 7.21875 10.7315 18.9709 9.49877 33.9549H6.41706C5.44211 33.9549 4.56351 34.5432 4.19218 35.4446C3.82084 36.3461 4.03018 37.3826 4.72229 38.0693L10.1117 43.4165C11.0498 44.3473 12.5631 44.3473 13.5012 43.4165L18.8906 38.0693C19.5827 37.3826 19.7921 36.3461 19.4207 35.4446C19.0494 34.5432 18.1708 33.9549 17.1959 33.9549H14.3313C15.5496 21.6616 26.0032 12.0312 38.7534 12.0312C47.639 12.0312 55.4169 16.7104 59.7253 23.7185C60.4213 24.8506 61.9033 25.2042 63.0354 24.5082C64.1675 23.8122 64.521 22.3302 63.825 21.1981C58.6713 12.815 49.368 7.21875 38.7534 7.21875Z"
+            fill="#E5E5E5" />
+        <path
+            d="M66.8657 33.5803C65.9283 32.6538 64.42 32.6538 63.4826 33.5803L58.0726 38.9275C57.3786 39.6135 57.1676 40.6506 57.5384 41.5532C57.9092 42.4558 58.7884 43.0451 59.7642 43.0451H62.6488C61.4256 55.3315 50.9355 64.9688 38.1242 64.9688C29.197 64.9688 21.3866 60.2855 17.0621 53.278C16.3642 52.1471 14.8816 51.796 13.7507 52.494C12.6198 53.1919 12.2688 54.6744 12.9667 55.8054C18.1405 64.1891 27.4767 69.7812 38.1242 69.7812C53.5494 69.7812 66.2443 58.0363 67.4815 43.0451H70.5842C71.5599 43.0451 72.4391 42.4558 72.8099 41.5532C73.1807 40.6506 72.9697 39.6135 72.2757 38.9275L66.8657 33.5803Z"
+            fill="#E5E5E5" />
+    </svg>
+
+    <form action="" class="registration">
+        <h1>Регистрация</h1>
+        <label for="firstName">Введите имя </label>
+        <input type="text" v-model="registration.firstName" id="firstName">
+        <label for="lastName">Введите фамилию </label>
+        <input type="text" v-model="registration.lastName" id="lastName">
+        <label for="emailR">Введите почту</label>
+        <input type="email" v-model="registration.email" id="emailR">
+        <label for="passwordR">Введите пароль</label>
+        <input type="password" v-model="registration.password" id="passwordR">
+        <label for="passwordR2">Повторите пароль</label>
+        <input type="password" v-model="registration.passwordConfirm" id="passwordR2">
+        <div class="check">
+            <input type="checkbox" v-model="registration.check"  id="check">
+            <label for="check">Принимаю условия на обработку персональных данных</label>
         </div>
-    </div>
+        <button type="submit" @click.prevent="registr" >Зарегистрирваться</button>
+    </form>
+
+    <svg :class="focusForm === 'login' ? 'back-svg' : 'back-svg back-svg-opacity'" width="1227" height="1080" viewBox="0 0 1227 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1164 416.58C1248.95 474.918 1246.91 601.007 1160.12 656.567L677.5 965.5L221.54 1244.89C129.341 1301.39 10.0902 1239.9 2.64535 1132.02L-75.6683 -2.7246C-77.83 -34.0476 -69.6951 -65.2187 -52.5024 -91.4907L17.5925 -198.602C62.1265 -266.654 154.142 -284.348 220.739 -237.667L677.5 82.5L1164 416.58Z" fill="#332f2f"/>
+    </svg>
+
+    <div :class="focusForm === 'login' ? 'back-block' : 'back-block-opacity' "></div>
+
 </template>
 
 <script>
@@ -34,12 +52,24 @@ export default {
     name: "Login",
     data(){
         return {
-            email: '',
-            password: '',
+            login: {
+                email: '',
+                password: ''
+            },
+            registration: {
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                check: false,
+            },
+            focusForm: 'login',
         }
     },
     methods:{
-        login(){
+        signIn(){
+            console.log(this.login);
             axios.get('/sanctum/csrf-cookie').then(r => {
                 if(localStorage.getItem('token')){
                     this.$router.push({
@@ -47,11 +77,11 @@ export default {
                     })
                 }
                 api.post('http://127.0.0.1:8000/api/signIn', {
-                    'email' : this.email,
-                    'password': this.password
+                    'email' : this.login.email,
+                    'password': this.login.password
                 }).then(response => {
-                    this.email = '';
-                    this.password = '';
+                    this.login.email = '';
+                    this.login.password = '';
 
                     window.localStorage.setItem('token', response.data['access_token']);
                     api.get('/api/me').then(r => {
@@ -62,188 +92,243 @@ export default {
                     })
                 });
             });
+        },
+        registr(){
+            console.log(this.registration);
+            if(this.registration.check){
+                if(this.registration.password === this.registration.passwordConfirm){
+                    axios.get('/sanctum/csrf-cookie').then(r => {
+                        api.post('/api/signUp',{
+                            name: this.registration.firstName + ' ' + this.registration.lastName,
+                            email: this.registration.email,
+                            password: this.registration.password
+                        }).then(response => {
+                            if(response.data.status === false){
+                                console.log(response.data.msg);
+                            } else {
+                                window.localStorage.setItem('token', response.data['access_token']);
+                                api.get('/api/me').then(r => {
+                                    this.$store.state.user = r.data;
+                                })
+                                this.$router.push({
+                                    name: 'profile',
+                                })
+                            }
+                        });
+                    })
+                } else {
+                    console.log('Пароли не совпадают');
+                }
+            } else {
+                console.log('Вы не одобрили обработку персональных данных');
+            }
+        },
+        setFocusForm() {
+            if (this.focusForm === 'login') {
+                this.focusForm = 'register';
+            } else {
+                this.focusForm = 'login';
+            }
+            this.setForm();
+        },
+        setForm() {
+            if (this.focusForm === 'login') {
+
+            }
         }
     }
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Raleway, sans-serif;
-}
-
-body {
-    background: linear-gradient(90deg, #C7C5F4, #776BCC);
-}
-
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-.screen {
-    background: linear-gradient(90deg, #5D54A4, #7C78B8);
-    position: relative;
-    height: 600px;
-    width: 360px;
-    box-shadow: 0px 0px 24px #5C5696;
-}
-
-.screen__content {
-    z-index: 1;
-    position: relative;
-    height: 100%;
-}
-
-.screen__background {
+.back-svg{
+    width: 64vw;
     position: absolute;
+    height: 100vh;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    -webkit-clip-path: inset(0 0 0 0);
-    clip-path: inset(0 0 0 0);
-}
+    left: -70px;
+    fill-opacity: 1;
+    z-index: 2;
 
-.screen__background__shape {
-    transform: rotate(45deg);
-    position: absolute;
+    transition: all 0.4s ease-in;
 }
-
-.screen__background__shape1 {
-    height: 520px;
-    width: 520px;
-    background: #FFF;
-    top: -50px;
-    right: 120px;
-    border-radius: 0 72px 0 0;
+.back-svg-opacity{
+    fill-opacity: 0.5;
+    z-index: 4;
 }
-
-.screen__background__shape2 {
-    height: 220px;
-    width: 220px;
-    background: #6C63AC;
-    top: -172px;
-    right: 0;
-    border-radius: 32px;
-}
-
-.screen__background__shape3 {
-    height: 540px;
-    width: 190px;
-    background: linear-gradient(270deg, #5D54A4, #6A679E);
-    top: -24px;
-    right: 0;
-    border-radius: 32px;
-}
-
-.screen__background__shape4 {
-    height: 400px;
-    width: 200px;
-    background: #7E7BB9;
-    top: 420px;
-    right: 50px;
-    border-radius: 60px;
-}
-
-.login {
-    width: 320px;
-    padding: 30px;
-    padding-top: 156px;
-}
-
-.login__field {
-    padding: 20px 0px;
+.login{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    transform: translate(20%, 90%);
 }
-
-.login__icon {
-    position: absolute;
-    top: 30px;
-    color: #7875B5;
+.login h1{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 45px;
+    color: var(--second-txt-color);
+    margin-bottom: 40px;
 }
-
-.login__input {
+.login label{
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--second-txt-color);
+    margin-bottom: 15px;
+}
+.login input{
+    background-color: var(--main-bg-color);
+    border-radius: 10px;
+    width: 400px;
+    height: 40px;
     border: none;
-    border-bottom: 2px solid #D1D1D4;
-    background: none;
-    padding: 10px;
-    padding-left: 24px;
-    font-weight: 700;
-    width: 75%;
-    transition: .2s;
-}
-
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
     outline: none;
-    border-bottom-color: #6A679E;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    color: var(--main-txt-color);
 }
-
-.login__submit {
-    background: #fff;
+.login input::placeholder{
     font-size: 14px;
-    margin-top: 30px;
-    padding: 16px 20px;
-    border-radius: 26px;
-    border: 1px solid #D4D3E8;
-    text-transform: uppercase;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    color: #4C489D;
-    box-shadow: 0px 2px 2px #5C5696;
+    font-family: "Roboto";
+}
+.login button{
+    width: 166px;
+    height: 33px;
+    background: var(--second-color);
+    border-radius: 6px;
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--main-bg-color);
+    border: none;
+}
+.refresh{
+    position: relative;
+    z-index: 15;
+    right: -770px;
+    bottom: -110px;
     cursor: pointer;
-    transition: .2s;
+    transition: all 0.6s ease-in;
 }
-
-.login__submit:active,
-.login__submit:focus,
-.login__submit:hover {
-    border-color: #6A679E;
-    outline: none;
+.refresh-rotate{
+    transform: rotate(360deg);
 }
-
-.button__icon {
-    font-size: 24px;
-    margin-left: auto;
-    color: #7875B5;
-}
-
-.social-login {
+.back-block{
     position: absolute;
-    height: 140px;
-    width: 160px;
-    text-align: center;
-    bottom: 0px;
-    right: 0px;
-    color: #fff;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease-in;
 }
-
-.social-icons {
+.back-block-opacity{
+    opacity: 0;
+    z-index: 0;
+}
+.registration{
+    position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+    right: -55vw;
+    top: -13vw;
+}
+.registration h1{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 45px;
+    color: var(--second-txt-color);
+    margin-bottom: 40px;
+}
+.registration label{
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--second-txt-color);
+    margin-bottom: 15px;
+}
+.registration input:not(input[type=checkbox]){
+    background-color: var(--second-bg-color);
+    border-radius: 10px;
+    width: 400px;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    color: var(--main-txt-color);
+}
+.check{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+    background: #332F2F;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.check label{
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 13px;
+    margin: 0;
+    margin-top: 5px;
+}
+.registration input::placeholder{
+    font-size: 14px;
+    font-family: "Roboto";
+}
+.registration button{
+    width: 216px;
+    height: 33px;
+    background: var(--second-color);
+    border-radius: 6px;
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--main-bg-color);
+    border: none;
+    margin-top: 30px;
+    margin-left: 180px;
+}
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
+    .registration{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+        right: -65vw;
+        top: -18vw;
+    }
+    .login{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+        transform: translate(40%, 85%);
+    }
+    .refresh{
+        right: -770px;
+        bottom: -80px;
+    }
 }
 
-.social-login__icon {
-    padding: 20px 10px;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0px 0px 8px #7875B5;
-}
-
-.social-login__icon:hover {
-    transform: scale(1.5);
-}
 </style>
