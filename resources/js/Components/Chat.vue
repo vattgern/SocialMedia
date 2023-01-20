@@ -18,6 +18,84 @@
                 <p>Привет! Чем занимаешься сегодня? Как дела?</p>
                 <p>14:02</p>
             </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+            <div class="my-message">
+                <p>Привет! Чем занимаешься сегодня? Как дела?</p>
+                <p>14:02</p>
+            </div>
+        </div>
+        <div class="input-message">
+            <input type="text" placeholder="Введите текст" required>
+            <button type="submit">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M4.49746 20.835L21.0072 13.4725C22.3309 12.8822 22.3309 11.1178 21.0072 10.5275L4.49746 3.16496C3.00163 2.49789 1.45006 3.97914 2.19099 5.36689L5.34302 11.2706C5.58817 11.7298 5.58818 12.2702 5.34302 12.7294L2.19099 18.6331C1.45007 20.0209 3.00163 21.5021 4.49746 20.835Z"
+                        fill="#E5E5E5" />
+                </svg>
+            </button>
         </div>
     </div>
 </template>
@@ -79,13 +157,36 @@ export default {
     width: 40px;
 }
 .field{
+    overflow-y:scroll;
     width: 100%;
+    height: 680px;
     padding: 20px 23px;
 }
+.field::-webkit-scrollbar {
+    width: 12px;
+    /* width of the entire scrollbar */
+}
+
+.field::-webkit-scrollbar-track {
+    background: transparent;
+    /* color of the tracking area */
+}
+
+.field::-webkit-scrollbar-thumb {
+    background-color: #494747;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    border: none;
+    /* creates padding around scroll thumb */
+}
 .message{
+    position: relative;
     background-color: var(--main-bg-color);
-    width: 40%;
-    padding: 7px 20px;
+    width: 45%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 .message p:first-child{
     font-family: 'Roboto';
@@ -96,11 +197,78 @@ export default {
     color: var(--second-txt-color);
 }
 .message p:last-child {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #9C9C9C
+}
+.my-message {
+    position: relative;
+    background-color: var(--main-bg-color);
+    width: 45%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-left: 55%;
+}
+
+.my-message p:first-child {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     color: var(--second-txt-color);
+}
+
+.my-message p:last-child {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #9C9C9C
+}
+.input-message{
+    position: relative;
+    width: 100%;
+    background-color: var(--second-bg-color);
+    padding: 20px;
+    border-radius: 0 0 14px 14px;
+}
+.input-message input{
+    border-radius: 9px;
+    width: 720px;
+    height: 43px;
+    background: #272525;
+    padding-left: 20px;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: "Roboto";
+}
+.input-message input::placeholder{
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #9C9C9C;
+}
+.input-message button{
+    position: absolute;
+    background: transparent;
+    border: none;
+    right: 40px;
+    bottom: 25px;
+    cursor: pointer;
 }
 </style>
