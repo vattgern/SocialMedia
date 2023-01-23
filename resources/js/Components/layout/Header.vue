@@ -37,12 +37,12 @@
               <p>Сообщения</p>
             </li>
           </router-link>
-          <a href="">
+         <router-link :to="{ name: 'friends' }">
             <li>
               <img src="/img/People.png" alt="No Ethernet" />
               <p>Друзья</p>
             </li>
-          </a>
+         </router-link>
         </ul>
       </nav>
       <div class="possible-friends">
@@ -53,7 +53,7 @@
             <p>Кормеев Руслан</p>
           </div>
           <a href="">
-            <div class="border-svg">
+            <div class="border-svg-possible">
               <svg
                 width="22"
                 height="22"
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-    /* Aside-left section open */
+/* Aside-left section open */
 
     aside{
       width: 360px;
@@ -251,7 +251,7 @@ nav ul a li:not(.first-li) {
   color: var(--second-txt-color);
   margin-left: 15px;
 }
-.border-svg {
+.border-svg-possible {
   border: 1px solid var(--main-txt-color);
   border-radius: 4px;
   padding: 7px 7px 6px 7px;

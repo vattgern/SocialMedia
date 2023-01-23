@@ -5,6 +5,7 @@ import Index from "./Components/Index.vue";
 import Profile from "./Components/Profile.vue";
 import Messenger from "./Components/Messenger.vue";
 import Chat from "./Components/Chat.vue";
+import Friends from "./Components/Friends.vue";
 
 export default createRouter({
     history: createWebHistory(),
@@ -33,6 +34,11 @@ export default createRouter({
             path: "/chat",
             name: "chat",
             component: Chat,
+        },
+        {
+            path: "/friends",
+            name: "friends",
+            component: Friends,
         },
     ],
 });
