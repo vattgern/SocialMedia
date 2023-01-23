@@ -1,9 +1,12 @@
-<template>
+<template> 
+  <div class="download-img-back" @click="OpenDownloadImg">
+    <div class="download-img"></div>
+  </div>
     <div class="new-post" >
         <div @click="openCreatePost">
             <img src="/img/profile-img.png" alt="No Ethernet">
             <textarea name="" id="" cols="30" rows="10" placeholder="Добавить новый пост"></textarea>
-            <img src="/img/photo-icon.png" alt="No Ethernet">
+            <img @click="OpenDownloadImg" src="/img/photo-icon.png" alt="No Ethernet">
         </div>
         <div>
             <form>
@@ -28,6 +31,7 @@
 </template>
 
 <script>
+let j = true;
     export default {
         mounted(){
             const selectSingle = document.querySelector('.__select');
@@ -56,16 +60,46 @@
                 document.querySelector('.new-post').classList.add('active-post');
             },
             closeCreatePost(){
-                console.log('asdgasdhj')
                 document.querySelector('.new-post').classList.remove('active-post');
+          },
+          OpenDownloadImg() {
+            if (j == true) {
+              document.querySelector('.download-img-back').style.display = "flex";
+              document.querySelector('html').style.overflowY = "hidden";
+              j = false;
+            } else {
+              document.querySelector('.download-img-back').style.display = "none";
+              document.querySelector('html').style.overflowY = "scroll";
+              j = true;
+              }
             }
         }
     }
 </script>
 
 <style lang="css" scoped>
-    /* Open create post section */
-    
+.download-img-back{
+  position: absolute;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+.download-img{
+  position: absolute;
+  width: 760px;
+  height: 600px;
+  background-color: var(--second-bg-color);
+  z-index: 1000;
+  border-radius: 14px;
+}
+/* Open create post section */
     .new-post{
       position: relative;      
         width: 720px;
@@ -165,6 +199,7 @@
     .new-post img:last-child{
         width: 34px;
         height: 40px;
+        cursor: pointer;
     }
     
     /* Close create post section */

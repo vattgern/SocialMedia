@@ -227,6 +227,7 @@
 .right-aside {
   position: relative;
     width: 360px;
+    z-index: 0;
   }
   .logo-block {
     position: fixed;
