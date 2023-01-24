@@ -15,7 +15,7 @@
             <p>10</p>
           </div>
         </div>
-        <a href="">Редактировать профиль</a>
+        <router-link :to="{ name: 'profileedit' }">Редактировать профиль</router-link>
       </div>
       <nav>
         <ul>
