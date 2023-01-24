@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendResource;
 use App\Models\Friend;
 use App\Models\Room;
 use App\Models\User;
@@ -16,17 +17,17 @@ class FriendController extends Controller
     public function all(): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'data' => Friend::all()->where('user_id', Auth::user()->id),
+            'data' => FriendResource::collection(Friend::all()->where('user_id', Auth::user()->id)),
             'message' => 'Список друзей',
         ]);
     }
-    public function index($id): \Illuminate\Http\JsonResponse
-    {
-        return response()->json([
-            'friend' => Friend::where(['user_id' => Auth::user()->id, 'friend_id' => $id])->get(),
-            'friend_data' => User::find($id),
-        ]);
-    }
+//    public function index($id): \Illuminate\Http\JsonResponse
+//    {
+//        return response()->json([
+//            'friend' => Friend::where(['user_id' => Auth::user()->id, 'friend_id' => $id])->get(),
+//            'friend_data' => User::find($id),
+//        ]);
+//    }
     public function add(Request $request): \Illuminate\Http\JsonResponse
     {
         if(Auth::user()->id == $request->input('friend_id')){
@@ -50,31 +51,57 @@ class FriendController extends Controller
             ]);
         }
     }
-    public function submitRequest($id): \Illuminate\Http\JsonResponse
+    public function friendsRequests(): \Illuminate\Http\JsonResponse
     {
-        $friend = Friend::find($id);
-
+        $friends = Friend::all()->where('user_id', Auth::id())->where('status', 0);
+        return response()->json([
+            'data' => FriendResource::collection($friends),
+            'message' => 'Заявки в друзья',
+        ]);
+    }
+    public function submitRequest($id){
+        $friends = Friend::find($id);
+        $friends->update([
+            'status' => 1
+        ]);
         $room = Room::create([
-           'name' => 'some',
+            'name' => 'some',
             'type' => true,
         ]);
         UserRoom::create([
             'user_id' => Auth::user()->id,
-            'room_id' => $room->id,
-        ]);
-        UserRoom::create([
-           'user_id' => $friend['friend_id'],
+            'user_second_id' => $friends['friend_id'],
             'room_id' => $room->id,
         ]);
         return response()->json([
-            'message' => 'Заявка одобрена, комната создана'
+            'message' => 'Заявка принята, комната создана',
+        ]);
+    }
+    public function rejectedRequest($id): \Illuminate\Http\JsonResponse
+    {
+        $friend = Friend::where('friend_id', $id)->where('user_id', Auth::id())->first();
+        $friendLineSecond = Friend::where('friend_id', Auth::id())->where('user_id', $id)->first();
+        $friend->delete();
+        $friendLineSecond->delete();
+        return response()->json([
+            'message' => 'Заявка отклонена'
         ]);
     }
     public function destroy($id): \Illuminate\Http\JsonResponse
     {
-        $friend = Friend::where('friend_id',$id)->where('user_id', Auth::user()->id);
+        $userRoom = UserRoom::where('user_id', $id)->where('user_second_id', Auth::id())->first();
+        if($userRoom === null){
+            $userRoom = UserRoom::where('user_id', Auth::id())->where('user_second_id', $id)->first();
+        }
+        $idRoom = $userRoom->room_id;
+        $room = Room::find($idRoom);
+
+        $userRoom->delete();
+        $room->delete();
+
+        $friend = Friend::where('friend_id',$id)->where('user_id', Auth::user()->id)->first();
         $friend->delete();
-        $friend = Friend::where('friend_id', Auth::user()->id)->where('user_id', $id);
+        $friend = Friend::where('friend_id', Auth::user()->id)->where('user_id', $id)->first();
         $friend->delete();
         return response()->json([
             'message' => 'Друг удален'

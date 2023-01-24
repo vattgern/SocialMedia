@@ -4,8 +4,8 @@ export default createStore({
    state(){
        return {
             user: {},
-           tabFriends: 'friend',
-           posts: [],
+            tabFriends: 'friend',
+            posts: [],
        }
    }
 });

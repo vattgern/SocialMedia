@@ -1,12 +1,12 @@
 <template>
     <div class="field-our-friends">
-        <div class="one-people" v-for="index in 5" :key="index">
+        <div class="one-people" v-for="(request, index) in requests" :key="index">
             <img src="/img/second-profile-img.png" alt="No Ethernet">
             <div>
-                <h1>Руслан Кормеев</h1>
+                <h1>{{request.friend.name}}</h1>
                 <p>Астрахань</p>
             </div>
-            <div class="border-svg-add">
+            <div class="border-svg-add" @click="submit(request.id, index)">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="9.16667" cy="5.50001" r="3.66667" fill="#E5E5E5" />
                     <path
@@ -17,7 +17,7 @@
                         stroke="#E5E5E5" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
             </div>
-            <div class="border-svg">
+            <div class="border-svg" @click="reject(request.friend.id, index)">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M12.833 5.50016C12.833 7.52521 11.1914 9.16683 9.16634 9.16683C7.1413 9.16683 5.49967 7.52521 5.49967 5.50016C5.49967 3.47512 7.1413 1.8335 9.16634 1.8335C11.1914 1.8335 12.833 3.47512 12.833 5.50016Z"
@@ -38,7 +38,26 @@
 
 <script>
 
+import api from "../../api";
+
 export default {
+    props:{
+        requests: Array,
+    },
+    methods: {
+        submit(id, index){
+            api.get(`/api/friends/${id}/submit`).then(r => {
+               console.log(r.data);
+               this.requests.splice(index,1);
+            });
+        },
+        reject(id, index){
+            api.delete(`/api/friends/${id}/rejected`).then(r => {
+                console.log(r.data);
+                this.requests.splice(index,1);
+            })
+        }
+    }
 }
 </script>
 

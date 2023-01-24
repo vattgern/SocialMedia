@@ -28,12 +28,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Друзья
     Route::controller(FriendController::class)->group(function () {
+        // Все друзья
         Route::get('/friends', 'all');
-        Route::get('/friends/{id}', 'index');
+        // Только одного друга
+//        Route::get('/friends/{id}', 'index');
+        // Отправить заявку в друзья
         Route::post('/friends/add', 'add');
+        // Вывод заявок в друзья
+        Route::get('/friends/requests', 'friendsRequests');
+        // Принять заявку в друзья
         Route::get('/friends/{id}/submit', 'submitRequest');
+        // Отвергнуть заявку в друзь
+        Route::delete('/friends/{id}/rejected', 'rejectedRequest');
+        // Удалить из друзей
         Route::delete('/friends/{id}', 'destroy');
     });
+
     // Категории
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/categories', 'all');
@@ -42,8 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/categories/{id}', 'update');
         Route::delete('/categories/{id}', 'destroy');
     });
-    // Вывод заявок в друзья
-    Route::post('/friends/submit', [UserController::class,'friendRequest']);
+
     // Добавление категории предпочтений
     Route::post('/categories/add', [UserController::class, 'addCategory']);
     // Отправить сообщение
@@ -57,20 +66,15 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::post('/signUp', [AuthController::class, 'signUp']);
 Route::post('/signIn', [AuthController::class, 'signIn']);
-
-
-
 // Посты
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'all');
     Route::get('/posts/{id}', 'index');
     Route::put('/posts/{id}', 'update');
 });
-
 // Пользователи
 Route::get('/users', [UserController::class, 'all']);
 Route::get('/users/{id}', [UserController::class, 'show']);
-
 // Чат
 // Для ТЕСТА
 // ----------------

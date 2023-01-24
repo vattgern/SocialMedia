@@ -1,12 +1,12 @@
 <template>
     <div class="field-our-friends">
-        <div class="one-people" v-for="index in 5" :key="index">
+        <div class="one-people" v-for="(user, index) in users" :key="index">
             <img src="/img/second-profile-img.png" alt="No Ethernet">
             <div>
-                <h1>Руслан Кормеев</h1>
+                <h1>{{ user.name }}</h1>
                 <p>Астрахань</p>
             </div>
-            <div class="border-svg">
+            <div class="border-svg" @click="sendRequestFriend(user.id, index)">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="9.16667" cy="5.50001" r="3.66667" fill="#E5E5E5" />
                     <path
@@ -18,15 +18,24 @@
                 </svg>
             </div>
         </div>
-    
     </div>
 </template>
 
 <script>
+import api from "../../api";
+
 export default {
-    data () {
-        return {
-            
+    props: {
+        users: Array
+    },
+    methods: {
+        sendRequestFriend(id, index){
+            api.post('/api/friends/add',{
+                friend_id: id,
+            }).then(r => {
+                console.log(r.data);
+                this.users.splice(index,1);
+            });
         }
     }
 }

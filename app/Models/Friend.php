@@ -9,4 +9,11 @@ class Friend extends Model
 {
     use HasFactory;
     protected $guarded = false;
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function friend(){
+        return $this->belongsTo(User::class);
+    }
 }
