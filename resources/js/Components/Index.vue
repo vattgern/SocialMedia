@@ -9,13 +9,16 @@
             <li :class=" tab === 'my'? 'my active-main-section-li' : 'my' "
                 @click="tab = 'my'">Мои посты</li>
         </ul>
-        <Post></Post>
+        <Post v-if="this.$store.state.posts" v-for="(post, index) in this.$store.state.posts"
+              :post="post"
+              :index="index"/>
     </section>
 </template>
 
 <script>
 import Post from './layout/Post.vue';
 import CreatePost from "./layout/CreatePost.vue";
+import api from "../api";
 
 export default {
     name: "Index",
@@ -27,6 +30,17 @@ export default {
     components:{
         Post,
         CreatePost,
+    },
+    mounted() {
+        this.getPosts();
+    },
+    methods: {
+        getPosts(){
+            api.get('/api/posts').then(response => {
+                console.log(response.data.data);
+                this.$store.state.posts = response.data.data;
+            });
+        }
     }
 }
 </script>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserRoom extends Model
 {
     use HasFactory;
+    protected $guarded = false;
 
     public function users(){
         return $this->hasMany(User::class,'id');

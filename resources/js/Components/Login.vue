@@ -67,6 +67,14 @@ export default {
             focusForm: 'login',
         }
     },
+    mounted() {
+        if(localStorage.getItem('token')){
+            this.getMe();
+            this.$router.push({
+                name: 'profile'
+            })
+        }
+    },
     methods:{
         signIn(){
             console.log(this.login);
@@ -84,14 +92,17 @@ export default {
                     this.login.password = '';
 
                     window.localStorage.setItem('token', response.data['access_token']);
-                    api.get('/api/me').then(r => {
-                        this.$store.state.userInfo = r.data;
-                    })
+                    this.getMe();
                     this.$router.push({
                         name: 'profile',
                     })
                 });
             });
+        },
+        getMe(){
+            api.get('/api/me').then(r => {
+                this.$store.state.user = r.data;
+            })
         },
         registr(){
             console.log(this.registration);
@@ -107,9 +118,7 @@ export default {
                                 console.log(response.data.msg);
                             } else {
                                 window.localStorage.setItem('token', response.data['access_token']);
-                                api.get('/api/me').then(r => {
-                                    this.$store.state.user = r.data;
-                                })
+                                this.getMe();
                                 this.$router.push({
                                     name: 'profile',
                                 })
@@ -172,7 +181,7 @@ export default {
     margin-bottom: 40px;
 }
 .login label{
-    font-family: 'Comfortaa';
+    font-family: 'Comfortaa', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -193,14 +202,14 @@ export default {
 }
 .login input::placeholder{
     font-size: 14px;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
 }
 .login button{
     width: 166px;
     height: 33px;
     background: var(--second-color);
     border-radius: 6px;
-    font-family: 'Comfortaa';
+    font-family: 'Comfortaa', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -250,7 +259,7 @@ export default {
     margin-bottom: 40px;
 }
 .registration label{
-    font-family: 'Comfortaa';
+    font-family: 'Comfortaa', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -282,24 +291,23 @@ input[type=checkbox]{
     margin-right: 10px;
 }
 .check label{
-    font-family: 'Comfortaa';
+    font-family: 'Comfortaa', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 13px;
-    margin: 0;
-    margin-top: 5px;
+    margin: 5px 0 0;
 }
 .registration input::placeholder{
     font-size: 14px;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
 }
 .registration button{
     width: 216px;
     height: 33px;
     background: var(--second-color);
     border-radius: 6px;
-    font-family: 'Comfortaa';
+    font-family: 'Comfortaa', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;

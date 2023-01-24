@@ -1,67 +1,31 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <section class="discussions">
-                <div class="discussion search">
-                    <div class="searchbar">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        <input type="text" placeholder="Search...">
+    <MessengerTop></MessengerTop>
+    <div class="main-messager">
+        <div class="top-content-main-messager">
+            <h1>Сообщения</h1>
+        </div>
+        <div class="bottom-content-main-messager">
+            <div> <!-- Это один мессенджер-->
+                <img src="/img/profile-img.png" alt="No Ethernet">
+                <div>
+                    <div class="name-time">
+                        <h2>Юрий Тишков</h2>
+                        <p>14:02</p>
                     </div>
+                    <p>В Ульяновской области нашли самого одинокого мужчину. 64-летний Геннадий Никифоров с 2008</p>
                 </div>
-                <div class="discussion message-active">
-                    <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);">
-                        <div class="online"></div>
-                    </div>
-                    <div class="desc-contact">
-                        <p class="name">Megan Leib</p>
-                        <p class="message">9 pm at the bar if possible 😳</p>
-                    </div>
-                    <div class="timer">12 sec</div>
-                </div>
-                <div class="discussion" v-for="room in rooms" @click="setFocusRoom(room)">
-                    <div class="photo" style="background-image: url(https://i.pinimg.com/originals/a9/26/52/a926525d966c9479c18d3b4f8e64b434.jpg);">
-                        <div class="online"></div>
-                    </div>
-                    <div class="desc-contact">
-                        <p class="name">{{ room.name }}</p>
-                        <p class="message">some text</p>
-                    </div>
-                    <div class="timer">Добавить время</div>
-                </div>
-
-            </section>
-            <section class="chat" v-show="focusRoom !== undefined">
-                <div class="header-chat">
-                    <i class="icon fa fa-user-o" aria-hidden="true"></i>
-                    <p class="name">{{ focusRoom.name }}</p>
-                    <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
-                </div>
-                <div class="messages-chat">
-                    <div class="message text-only" v-for="message in messages">
-                        <div class="response" v-if="message['user_id'] === this.$store.state.userInfo.id">
-                            <p class="text">{{ message['message'] }}</p>
-                        </div>
-                        <div v-else>
-                            <p class="text">{{ message['message'] }} </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-chat">
-                    <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
-                    <input type="text" v-model="textMessage" class="write-message" placeholder="Type your message here">
-                    <button @click.prevent="sendMessage(focusRoom.id)" >Отправить</button>
-                    <i class="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
-                </div>
-            </section>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import api from '../api';
+import MessengerTop from './layout/MessengerTop.vue';
 
 export default {
     name: "Messenger",
+    components: {MessengerTop},
     data(){
         return {
             rooms: [],
@@ -74,7 +38,7 @@ export default {
         this.getUser();
         this.getRooms();
 
-
+        console.log(this.rooms);
     },
     methods: {
         getUser(){
@@ -85,10 +49,8 @@ export default {
         getRooms(){
             api('/api/rooms').then(response => {
                 let rooms = response.data.data;
-                //console.log(rooms);
                 for (let i = 0; i < rooms.length;i++){
                     for (let index = 0; index < rooms[i].participants.length; index++){
-                        console.log(rooms[i].participants[index]['user_id']);
                         if(this.$store.state.userInfo.id === rooms[i].participants[index]['user_id']){
                             this.rooms.push(rooms[i]);
                         }
@@ -100,15 +62,15 @@ export default {
         setFocusRoom(room){
             this.focusRoom = room;
 
-            this.fetchMessages(room.id);
-            window.Echo.channel('chat')
-                .listen('MessageSent', (e) => {
-                    this.messages.push({
-                        message: e.message.message,
-                        'user_id': e.user.id,
-                    });
-                    console.log(e);
-                });
+            // this.fetchMessages(room.id);
+            // window.Echo.channel('chat')
+            //     .listen('MessageSent', (e) => {
+            //         this.messages.push({
+            //             message: e.message.message,
+            //             'user_id': e.user.id,
+            //         });
+            //         console.log(e);
+            //     });
         },
         fetchMessages(id){
           api.get(`/api/room/${id}/messages`).then(response => {
@@ -132,296 +94,76 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    padding:0;
-    background-color: #FFF;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    width: 100%;
-    height: 95%;
+
+.main-messager{
+    width: 760px;
+    margin-top: 10px;
+    border-radius: 14px;
+    background-color: var(--second-bg-color);
+    padding: 23px 0;
 }
-.row{
+.top-content-main-messager{
+    border-bottom: 1px solid #585858;
+    padding-left: 48px;
+    padding-bottom: 23px;
+}
+.top-content-main-messager h1{
+    font-style: normal;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--second-txt-color);
+}
+.bottom-content-main-messager {
+    padding-top: 20px;
+    padding-left: 47px;
+    padding-right: 35px;
+}
+.bottom-content-main-messager > div{
     display: flex;
     flex-direction: row;
-}
-/* === CONVERSATIONS === */
-
-.discussions {
-    width: 35%;
-    height: 700px;
-    box-shadow: 0px 8px 10px rgba(0,0,0,0.20);
-    overflow: hidden;
-    background-color: #87a3ec;
-    display: inline-block;
-}
-
-.discussions .discussion {
-    width: 100%;
-    height: 90px;
-    background-color: #FAFAFA;
-    border-bottom: solid 1px #E0E0E0;
-    display:flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.discussions .search {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    color: #E0E0E0;
-}
-
-.discussions .search .searchbar {
-    height: 40px;
-    background-color: #FFF;
-    width: 70%;
-    padding: 0 20px;
-    border-radius: 50px;
-    border: 1px solid #EEEEEE;
-    display:flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.discussions .search .searchbar input {
-    margin-left: 15px;
-    height:38px;
-    width:100%;
-    border:none;
-    font-family: 'Montserrat', sans-serif;;
-}
-
-.discussions .search .searchbar *::-webkit-input-placeholder {
-    color: #E0E0E0;
-}
-.discussions .search .searchbar input *:-moz-placeholder {
-    color: #E0E0E0;
-}
-.discussions .search .searchbar input *::-moz-placeholder {
-    color: #E0E0E0;
-}
-.discussions .search .searchbar input *:-ms-input-placeholder {
-    color: #E0E0E0;
-}
-
-.discussions .message-active {
-    width: 98.5%;
-    height: 90px;
-    background-color: #FFF;
-    border-bottom: solid 1px #E0E0E0;
-}
-
-.discussions .discussion .photo {
-    margin-left:20px;
-    display: block;
-    width: 45px;
-    height: 45px;
-    background: #E6E7ED;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.online {
-    position: relative;
-    top: 30px;
-    left: 35px;
-    width: 13px;
-    height: 13px;
-    background-color: #8BC34A;
-    border-radius: 13px;
-    border: 3px solid #FAFAFA;
-}
-
-.desc-contact {
-    height: 43px;
-    width:50%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.discussions .discussion .name {
-    margin: 0 0 0 20px;
-    font-family:'Montserrat', sans-serif;
-    font-size: 11pt;
-    color:#515151;
-}
-
-.discussions .discussion .message {
-    margin: 6px 0 0 20px;
-    font-family:'Montserrat', sans-serif;
-    font-size: 9pt;
-    color:#515151;
-}
-
-.timer {
-    margin-left: 15%;
-    font-family:'Open Sans', sans-serif;
-    font-size: 11px;
-    padding: 3px 8px;
-    color: #BBB;
-    background-color: #FFF;
-    border: 1px solid #E5E5E5;
-    border-radius: 15px;
-}
-
-.chat {
-    width: calc(65% - 85px);
-}
-
-.header-chat {
-    background-color: #FFF;
-    height: 90px;
-    box-shadow: 0px 3px 2px rgba(0,0,0,0.100);
-    display:flex;
     align-items: center;
 }
-
-.chat .header-chat .icon {
-    margin-left: 30px;
-    color:#515151;
-    font-size: 14pt;
+.bottom-content-main-messager > div:not(:last-child){
+    margin-bottom: 40px;
 }
-
-.chat .header-chat .name {
-    margin: 0 0 0 20px;
-    text-transform: uppercase;
-    font-family:'Montserrat', sans-serif;
-    font-size: 13pt;
-    color:#515151;
-}
-
-.chat .header-chat .right {
-    position: absolute;
-    right: 40px;
-}
-
-.chat .messages-chat {
-    padding: 25px 35px;
-}
-
-.chat .messages-chat .message {
-    display:flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.chat .messages-chat .message .photo {
-    display: block;
-    width: 45px;
-    height: 45px;
-    background: #E6E7ED;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.chat .messages-chat .text {
-    margin: 0 35px;
-    background-color: #f6f6f6;
-    padding: 15px;
-    border-radius: 12px;
-}
-
-.text-only {
-    margin-left: 45px;
-}
-
-.time {
-    font-size: 10px;
-    color:lightgrey;
-    margin-bottom:10px;
-    margin-left: 85px;
-}
-
-.response-time {
-    float: right;
-    margin-right: 40px !important;
-}
-
-.response {
-    float: right;
-    margin-right: 0px !important;
-    margin-left:auto; /* flexbox alignment rule */
-}
-
-.response .text {
-    background-color: #e3effd !important;
-}
-
-.footer-chat {
-    width: calc(65% - 66px);
-    height: 80px;
-    display:flex;
-    align-items: center;
-    position:absolute;
-    bottom: 0;
-    background-color: transparent;
-    border-top: 2px solid #EEE;
-
-}
-
-.chat .footer-chat .icon {
-    margin-left: 30px;
-    color:#C0C0C0;
-    font-size: 14pt;
-}
-
-.chat .footer-chat .send {
-    color:#fff;
-    background-color: #4f6ebd;
-    position: absolute;
-    right: 50px;
-    padding: 12px 12px 12px 12px;
-    border-radius: 50px;
-    font-size: 14pt;
-}
-
-.chat .footer-chat .name {
-    margin: 0 0 0 20px;
-    text-transform: uppercase;
-    font-family:'Montserrat', sans-serif;
-    font-size: 13pt;
-    color:#515151;
-}
-
-.chat .footer-chat .right {
-    position: absolute;
-    right: 40px;
-}
-
-.write-message {
-    border:none !important;
-    width:60%;
+.bottom-content-main-messager > div img{
+    width: 50px;
     height: 50px;
+    object-fit: cover;
+}
+.bottom-content-main-messager > div > div{
+    display: flex;
+    flex-direction: column;
     margin-left: 20px;
-    padding: 10px;
+    gap: 10px;
 }
-
-.footer-chat *::-webkit-input-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
+.name-time{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-.footer-chat input *:-moz-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
+.name-time h2{
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 17px;
+    color: var(--second-txt-color);
 }
-.footer-chat input *::-moz-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-    margin-left:5px;
+.name-time  p{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #9C9C9C;
 }
-.footer-chat input *:-ms-input-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-}
-
-.clickable {
-    cursor: pointer;
+.bottom-content-main-messager > div > div > p{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 151.69%;
+    color: var(--second-txt-color);
 }
 </style>
+

@@ -26,7 +26,7 @@
             />
           </svg>
         </div>
-        <div class="categories">
+        <div class="categories" v-show="this.$route.path !== '/friends'">
           <h1>Ваши категории</h1>
           <div>
             <div class="it">
@@ -212,21 +212,27 @@
             </div>
           </div>
         </div>
-      </aside>
+        <div v-show="this.$route.path === '/friends'" style="position: absolute">
+            <button @click.prevent="this.$store.state.tabFriends = 'friend'">Друзья</button>
+            <button @click.prevent="this.$store.state.tabFriends = 'possible'">Возможные друзья</button>
+            <button @click.prevent="this.$store.state.tabFriends = 'request'">Заявки</button>
+        </div>
+    </aside>
 </template>
 
 <script>
     export default {
-        
+
     }
 </script>
 
 <style scoped>
 /* aside-right section open */
 
-.right-aside {
-  position: relative;
+  .right-aside {
+    position: relative;
     width: 360px;
+    z-index: 0;
   }
   .logo-block {
     position: fixed;
@@ -236,7 +242,7 @@
     background-color: var(--second-bg-color);
     padding: 40px 72px;
   }
-  
+
   .categories {
     position: fixed;
     width: 360px;
@@ -354,6 +360,6 @@
     font-size: 96px;
     line-height: 107px;
   }
-  
+
   /* aside-right section close */
 </style>

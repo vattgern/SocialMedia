@@ -1,58 +1,85 @@
 <template>
+    <div v-show="downImg" class="download-img-back" @click="CloseDownloadImg">
+        <div class="download-img" ref="dropzone"> Upload </div>
+    </div>
     <div class="new-post" >
         <div @click="openCreatePost">
             <img src="/img/profile-img.png" alt="No Ethernet">
-            <textarea name="" id="" cols="30" rows="10" placeholder="Добавить новый пост"></textarea>
-            <img src="/img/photo-icon.png" alt="No Ethernet">
+            <textarea v-model="textPost" cols="30" rows="10" placeholder="Добавить новый пост"></textarea>
+            <img @click="OpenDownloadImg" src="/img/photo-icon.png" alt="No Ethernet">
         </div>
         <div>
             <form>
+                <select v-model="chosenCategory">
+                    <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                </select>
               <div class="__select" data-state="">
-                <div class="__select__title" data-default="Option 0">Тематика</div>
-                <div class="__select__content">
-                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" checked />
-                  <label for="singleSelect0" class="__select__label">Option 0</label>
-                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" />
-                  <label for="singleSelect1" class="__select__label">Option 1</label>
-                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" />
-                  <label for="singleSelect3" class="__select__label">Option 3</label>
-                  <input id="singleSelect4" class="__select__input" type="radio" name="singleSelect" />
-                  <label for="singleSelect4" class="__select__label">Option 4</label>
-                </div>
+
+<!--                <div class="__select__title" data-default="Option 0">Тематика</div>-->
+<!--                <div class="__select__content">-->
+<!--                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" checked />-->
+<!--                  <label for="singleSelect0" class="__select__label">Option 0</label>-->
+<!--                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" />-->
+<!--                  <label for="singleSelect1" class="__select__label">Option 1</label>-->
+<!--                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" />-->
+<!--                  <label for="singleSelect3" class="__select__label">Option 3</label>-->
+<!--                  <input id="singleSelect4" class="__select__input" type="radio" name="singleSelect" />-->
+<!--                  <label for="singleSelect4" class="__select__label">Option 4</label>-->
+<!--                </div>-->
               </div>
             </form>
-            <button class="publish">Опубликовать</button>
+            <button @click="store" class="publish">Опубликовать</button>
             <button class="close-btn" @click="closeCreatePost">Закрыть</button>
         </div>
     </div>
 </template>
 
 <script>
+    import Dropzone from 'dropzone';
+    import api from "../../api";
     export default {
-        mounted(){
-            console.log('hello')
-            const selectSingle = document.querySelector('.__select');
-            const selectSingle_title = selectSingle.querySelector('.__select__title');
-            const selectSingle_labels = selectSingle.querySelectorAll('.__select__label');
-
-            // Toggle menu
-            selectSingle_title.addEventListener('click', () => {
-              if ('active' === selectSingle.getAttribute('data-state')) {
-                selectSingle.setAttribute('data-state', '');
-              } else {
-                selectSingle.setAttribute('data-state', 'active');
-              }
-            });
-
-            // Close when click to option
-            for (let i = 0; i < selectSingle_labels.length; i++) {
-              selectSingle_labels[i].addEventListener('click', (evt) => {
-                selectSingle_title.textContent = evt.target.textContent;
-                selectSingle.setAttribute('data-state', '');
-              });
+        data(){
+            return{
+                downImg: false,
+                dropzone: null,
+                textPost: '',
+                categories: [],
+                chosenCategory: '',
             }
         },
+        mounted(){
+            this.getCategories();
+            this.dropzone = new Dropzone(this.$refs.dropzone, {
+                url: '/asdjdfk',
+                autoProcessQueue: false,
+            });
+            // const selectSingle = document.querySelector('.__select');
+            // const selectSingle_title = selectSingle.querySelector('.__select__title');
+            // const selectSingle_labels = selectSingle.querySelectorAll('.__select__label');
+            //
+            // // Toggle menu
+            // selectSingle_title.addEventListener('click', () => {
+            //   if ('active' === selectSingle.getAttribute('data-state')) {
+            //     selectSingle.setAttribute('data-state', '');
+            //   } else {
+            //     selectSingle.setAttribute('data-state', 'active');
+            //   }
+            // });
+            //
+            // // Close when click to option
+            // for (let i = 0; i < selectSingle_labels.length; i++) {
+            //   selectSingle_labels[i].addEventListener('click', (evt) => {
+            //     selectSingle_title.textContent = evt.target.textContent;
+            //     selectSingle.setAttribute('data-state', '');
+            //   });
+            // }
+        },
         methods: {
+            getCategories(){
+                api.get('/api/categories').then(response => {
+                    this.categories = response.data.data;
+                });
+            },
             openCreatePost(){
                 console.log('hello')
                 document.querySelector('.new-post').classList.add('active-post');
@@ -60,12 +87,63 @@
             closeCreatePost(){
                 console.log('asdgasdhj')
                 document.querySelector('.new-post').classList.remove('active-post');
+            },
+            CloseDownloadImg(){
+                this.downImg = false;
+                document.querySelector('html').style.overflowY = "scroll";
+            },
+            OpenDownloadImg() {
+                this.downImg = true;
+                console.log('sdfkjdfdfjsadf')
+                document.querySelector('html').style.overflowY = "hidden";
+            },
+            store(){
+                let fd = new FormData();
+                let files = this.dropzone.getAcceptedFiles();
+                files.forEach(file => {
+                   console.log(file);
+                   fd.append('files[]', file);
+                });
+                fd.append('category_id', this.chosenCategory);
+                fd.append('content', this.textPost);
+                this.textPost = '';
+                this.dropzone.clear;
+                api.post('/api/posts/create', fd).then(r => {
+                    this.getPosts();
+                });
+            },
+            getPosts(){
+                api.get('/api/posts').then(response => {
+                    console.log(response.data.data);
+                    this.$store.state.posts = response.data.data;
+                });
             }
         }
     }
 </script>
 
 <style lang="css" scoped>
+.download-img-back{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+.download-img{
+    position: absolute;
+    width: 760px;
+    height: 600px;
+    background-color: var(--second-bg-color);
+    z-index: 1000;
+    border-radius: 14px;
+}
     /* Open create post section */
 
     .new-post{

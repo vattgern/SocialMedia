@@ -28,65 +28,18 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $userOne = User::factory()->create([
-           'name' => 'alex',
-           'email' => 'sashawot060@gmail.com',
-            'password' => Hash::make('4587'),
-            'avatar' => 'default',
-            'category' => 'default',
+        Category::factory()->create([
+            'name' => 'Спорт',
         ]);
-        $userTwo = User::factory()->create([
-            'name' => 'zirael',
-            'email' => 'sasha@gmail.com',
-            'password' => Hash::make('4587'),
-            'avatar' => 'default',
-            'category' => 'default',
+        Category::factory()->create([
+            'name' => 'Игры',
         ]);
-        $userThree = User::factory()->create([
-           'name' => 'Юра',
-           'email' => 'tishka@gmail.com',
-           'password' => Hash::make('4587'),
-           'avatar' => 'default',
-           'category' => 'default'
+        Category::factory()->create([
+            'name' => 'Фильмы',
         ]);
-        $room = Room::factory()->create([
-            'name' => 'Alex&Zirael',
-            'type' => true,
+        Category::factory()->create([
+            'name' => 'Музыка',
         ]);
-        $roomTwo = Room::factory()->create([
-           'name' => 'Yuri&Zirael',
-           'type' => true,
-        ]);
-        UserRoom::factory()->create([
-            'user_id' => $userOne->id,
-            'room_id' => $room->id,
-        ]);
-        UserRoom::factory()->create([
-            'user_id' => $userTwo->id,
-            'room_id' => $room->id,
-        ]);
-        UserRoom::factory()->create([
-            'user_id' => $userThree->id,
-            'room_id' => $roomTwo->id
-        ]);
-        UserRoom::factory()->create([
-            'user_id' => $userTwo->id,
-            'room_id' => $roomTwo->id
-        ]);
-        Message::factory()->create([
-            'user_id' => $userOne->id,
-            'room_id' => $room->id,
-            'message'=> 'some text'
-        ]);
-        Message::factory()->create([
-            'user_id' => $userTwo->id,
-            'room_id' => $room->id,
-            'message'=> 'some text'
-        ]);
-        Message::factory()->create([
-           'user_id' => $userThree->id,
-           'room_id' => $roomTwo->id,
-           'message' => 'test room 2'
-        ]);
+
     }
 }
