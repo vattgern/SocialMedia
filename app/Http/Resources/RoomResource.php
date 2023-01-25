@@ -18,7 +18,7 @@ class RoomResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
-            'participants' => $this->participants,
+            'participants' => UserRoomResource::collection($this->participants),
             'messages' => $this->messages,
         ];
     }

@@ -28,4 +28,10 @@ window.Echo = new Echo({
     key: 'f34b4f6e88cb34a6f8ea',
     cluster: 'eu',
     forceTLS: true,
+    encrypted: true,
+    auth: {
+        headers: {
+            Authorization: 'Bearer ' + window.localStorage.getItem('token')
+        },
+    }
 });

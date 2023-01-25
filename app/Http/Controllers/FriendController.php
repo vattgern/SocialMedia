@@ -17,8 +17,15 @@ class FriendController extends Controller
     public function all(): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'data' => FriendResource::collection(Friend::all()->where('user_id', Auth::user()->id)),
+            'data' => FriendResource::collection(Friend::all()->where('user_id', Auth::user()->id)->where('status', 1)),
             'message' => 'Список друзей',
+        ]);
+    }
+    public function countFriends(){
+        $friends = FriendResource::collection(Friend::all()->where('user_id', Auth::id())->where('status', 1));
+        return response()->json([
+            'message' => 'Кол-во друзей',
+            'count' => $friends->count()
         ]);
     }
 //    public function index($id): \Illuminate\Http\JsonResponse

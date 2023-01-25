@@ -6,6 +6,9 @@ export default createStore({
             user: {},
             tabFriends: 'friend',
             posts: [],
+            myPosts: [],
+            friendsCount: 0,
+            myPostsCount: 0,
        }
    }
 });

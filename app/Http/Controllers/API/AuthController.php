@@ -22,9 +22,9 @@ class AuthController extends Controller
             'name' =>  $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-            'avatar' => 'default',
+            'avatar' => '/default-avatar.png',
             'category' => null,
-            'background' => 'default',
+            'background' => '/img/cover-profile.png',
             'city' => null,
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;

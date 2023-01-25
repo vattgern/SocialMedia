@@ -47,6 +47,7 @@ export default {
             api.get('/api/friends').then(response => {
                 console.log(response.data);
                 this.friends = response.data.data;
+                this.$store.state.friendsCount = this.friends.length;
             })
         },
         getUsers(){

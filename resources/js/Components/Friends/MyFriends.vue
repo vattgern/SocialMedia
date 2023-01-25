@@ -1,7 +1,7 @@
 <template>
     <div class="field-our-friends">
         <div class="one-people" v-for="(request, index) in requests" :key="index">
-            <img src="/img/second-profile-img.png" alt="No Ethernet">
+            <img :src="request.friend.avatar" alt="No Ethernet">
             <div>
                 <h1>{{request.friend.name}}</h1>
                 <p>Астрахань</p>

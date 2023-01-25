@@ -25,6 +25,14 @@ class PostController extends Controller
             ]);
         }
     }
+    public function allMyPosts(){
+        $posts = PostResource::collection(Post::all()->where('user_id', Auth::user()->id));
+        return response()->json([
+            'message' => 'Мои посты',
+            'data' => $posts,
+            'count' => $posts->count(),
+        ]);
+    }
     public function index($id)
     {
         if(Post::find($id) != null){

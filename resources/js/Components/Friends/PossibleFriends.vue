@@ -1,7 +1,7 @@
 <template>
     <div class="field-our-friends">
         <div class="one-people" v-for="(user, index) in users" :key="index">
-            <img src="/img/second-profile-img.png" alt="No Ethernet">
+            <img :src="user.avatar" alt="No Ethernet">
             <div>
                 <h1>{{ user.name }}</h1>
                 <p>Астрахань</p>
@@ -60,7 +60,8 @@ export default {
 }
 
 .one-people img {
-    width: 50px;
+    width: 50px;height: 50px;
+    border-radius: 100px;
 }
 
 .one-people div {

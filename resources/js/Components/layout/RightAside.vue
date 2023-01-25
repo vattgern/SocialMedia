@@ -212,10 +212,19 @@
             </div>
           </div>
         </div>
-        <div v-show="this.$route.path === '/friends'" style="position: absolute">
-            <button @click.prevent="this.$store.state.tabFriends = 'friend'">Друзья</button>
-            <button @click.prevent="this.$store.state.tabFriends = 'possible'">Возможные друзья</button>
-            <button @click.prevent="this.$store.state.tabFriends = 'request'">Заявки</button>
+        <div v-show="this.$route.path === '/friends'" class="friends-switch">
+            <div @click.prevent="this.$store.state.tabFriends = 'friend'">
+                <p>Мои друзья</p>
+                <div :class="this.$store.state.tabFriends === 'friend' ? 'point' : ''"></div>
+            </div>
+            <div @click.prevent="this.$store.state.tabFriends = 'possible'">
+                <p>Поиск людей</p>
+                <div :class="this.$store.state.tabFriends === 'possible' ? 'point' : ''"></div>
+            </div>
+            <div @click.prevent="this.$store.state.tabFriends = 'request'">
+                <p>Заявки в друзья</p>
+                <div :class="this.$store.state.tabFriends === 'request' ? 'point' : ''"></div>
+            </div>
         </div>
     </aside>
 </template>
@@ -228,6 +237,37 @@
 
 <style scoped>
 /* aside-right section open */
+.friends-switch{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    margin-top: 220px;
+    width: 360px;
+    background: var(--second-bg-color);
+    border-radius: 9px;
+    padding: 0 20px;
+}
+.friends-switch > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    cursor: pointer;
+}
+.friends-switch > div p{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--second-txt-color);
+}
+.point{
+    width: 12px;
+    height: 12px;
+    background: var(--second-color);
+    border-radius: 50px;
+}
 
   .right-aside {
     position: relative;

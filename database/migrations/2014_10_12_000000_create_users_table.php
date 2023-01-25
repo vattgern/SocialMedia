@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('city')->nullable();
             $table->text('background')->nullable();
-            $table->text('avatar')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('category')->nullable();
+            $table->string('status')->default('online');
             $table->rememberToken();
             $table->timestamps();
         });

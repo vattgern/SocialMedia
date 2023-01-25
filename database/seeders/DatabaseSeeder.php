@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserRoom;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,7 +29,21 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Category::factory()->create([
+        $user = User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'test@gmail.com',
+            'password' => Hash::make('4587'),
+            'avatar' => '/default-avatar.png',
+            'background' => '/img/cover-profile.png'
+        ]);
+        User::factory()->create([
+            'name' => 'Лиджиев Александр',
+            'email' => 'sashawot060@gmail.com',
+            'password' => Hash::make('4587'),
+            'avatar' => '/default-avatar.png',
+            'background' => '/img/cover-profile.png'
+        ]);
+        $category = Category::factory()->create([
             'name' => 'Спорт',
         ]);
         Category::factory()->create([
@@ -41,5 +56,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Музыка',
         ]);
 
+        Post::factory()->count(5)->create([
+            'category_id' => $category->id,
+            'user_id' => $user->id,
+        ]);
     }
 }

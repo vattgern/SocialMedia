@@ -1,20 +1,22 @@
 <template>
-    <MessengerTop></MessengerTop>
+<!--    <MessengerTop></MessengerTop>-->
     <div class="main-messager">
         <div class="top-content-main-messager">
             <h1>Сообщения</h1>
         </div>
         <div class="bottom-content-main-messager">
-            <div> <!-- Это один мессенджер-->
-                <img src="/img/profile-img.png" alt="No Ethernet">
+            <!-- Это один мессенджер-->
+            <router-link v-for="room in rooms" :to="{ name: 'chat', params: { id: room.id } }">
+                <img :src="room.participants[0].user.id === this.$store.state.user.id ? room.participants[0].userSecond.avatar : room.participants[0].user.avatar" alt="No Ethernet">
                 <div>
                     <div class="name-time">
-                        <h2>Юрий Тишков</h2>
+                        <h2 v-if="room.participants[0].user.id === this.$store.state.user.id">{{ room.participants[0].userSecond.name  }}</h2>
+                        <h2 v-else>{{ room.participants[0].user.name }}</h2>
                         <p>14:02</p>
                     </div>
                     <p>В Ульяновской области нашли самого одинокого мужчину. 64-летний Геннадий Никифоров с 2008</p>
                 </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -29,7 +31,6 @@ export default {
     data(){
         return {
             rooms: [],
-            focusRoom: {},
             messages: [],
             textMessage: ''
         }
@@ -38,39 +39,24 @@ export default {
         this.getUser();
         this.getRooms();
 
-        console.log(this.rooms);
     },
     methods: {
         getUser(){
             api.get('/api/me').then(r => {
-                this.$store.state.userInfo = r.data;
+                this.$store.state.user = r.data;
             })
         },
         getRooms(){
             api('/api/rooms').then(response => {
                 let rooms = response.data.data;
-                for (let i = 0; i < rooms.length;i++){
-                    for (let index = 0; index < rooms[i].participants.length; index++){
-                        if(this.$store.state.userInfo.id === rooms[i].participants[index]['user_id']){
-                            this.rooms.push(rooms[i]);
+                rooms.forEach((room, index) => {
+                    for(let i=0;i<room.participants.length; i++){
+                        if(room.participants[i].user.id === this.$store.state.user.id || room.participants[i].userSecond.id === this.$store.state.user.id){
+                            this.rooms.push(room);
                         }
                     }
-                }
-                //this.rooms = response.data.data;
+                });
             })
-        },
-        setFocusRoom(room){
-            this.focusRoom = room;
-
-            // this.fetchMessages(room.id);
-            // window.Echo.channel('chat')
-            //     .listen('MessageSent', (e) => {
-            //         this.messages.push({
-            //             message: e.message.message,
-            //             'user_id': e.user.id,
-            //         });
-            //         console.log(e);
-            //     });
         },
         fetchMessages(id){
           api.get(`/api/room/${id}/messages`).then(response => {
@@ -119,20 +105,22 @@ export default {
     padding-left: 47px;
     padding-right: 35px;
 }
-.bottom-content-main-messager > div{
+.bottom-content-main-messager > a{
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-decoration: none;
 }
-.bottom-content-main-messager > div:not(:last-child){
+.bottom-content-main-messager > a:not(:last-child){
     margin-bottom: 40px;
 }
-.bottom-content-main-messager > div img{
+.bottom-content-main-messager > a img{
     width: 50px;
     height: 50px;
     object-fit: cover;
+    border-radius: 100px;
 }
-.bottom-content-main-messager > div > div{
+.bottom-content-main-messager > a > div{
     display: flex;
     flex-direction: column;
     margin-left: 20px;
@@ -150,15 +138,15 @@ export default {
     color: var(--second-txt-color);
 }
 .name-time  p{
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;
     color: #9C9C9C;
 }
-.bottom-content-main-messager > div > div > p{
-    font-family: 'Roboto';
+.bottom-content-main-messager > a > div > p{
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;

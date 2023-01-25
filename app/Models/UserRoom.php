@@ -10,7 +10,10 @@ class UserRoom extends Model
     use HasFactory;
     protected $guarded = false;
 
-    public function users(){
-        return $this->hasMany(User::class,'id');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function userSecond(){
+        return $this->belongsTo(User::class, 'user_second_id');
     }
 }

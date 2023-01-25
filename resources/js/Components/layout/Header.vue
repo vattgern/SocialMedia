@@ -1,21 +1,22 @@
 <template>
     <aside>
         <div class="mini-profile">
-            <div class="cover-mini-profile"></div>
-            <img :src="'/img/profile-img.png'" alt="No Ethernet" />
+            <div class="cover-mini-profile"
+                 :style="`background: url('${this.$store.state.user.background}'); background-size:cover; background-repeat: no-repeat; background-position: 50% 25%;`"></div>
+            <img :src=" this.$store.state.user.avatar" alt="No Ethernet" />
             <h1>{{ this.$store.state.user.name }}</h1>
             <h2>Астрахань</h2>
             <div class="friends-posts">
                 <div>
                     <h3>Друзей</h3>
-                    <p>20</p>
+                    <p>{{ this.$store.state.friendsCount }}</p>
                 </div>
                 <div>
                     <h3>Постов</h3>
-                    <p>10</p>
+                    <p>{{ this.$store.state.myPostsCount }}</p>
                 </div>
             </div>
-            <a>Редактировать профиль</a>
+            <router-link :to="{ name: 'profileEdit' }">Редактировать профиль</router-link>
             <a @click.prevent="logout" >Выйти</a>
         </div>
         <nav>
@@ -86,6 +87,11 @@ import api from "../../api";
 
 export default {
     name: "Header",
+    mounted() {
+        this.getUser();
+        this.getCountFriends();
+        this.getCountPosts();
+    },
     methods: {
         logout(){
             api.get('/api/logout').then(r => {
@@ -94,6 +100,23 @@ export default {
                     name: 'login'
                 })
             })
+        },
+        getUser(){
+            api.get('/api/me').then(r => {
+                this.$store.state.user = r.data;
+                console.log(this.$store.state.user);
+            })
+        },
+        getCountFriends(){
+            api.get('/api/friends/count').then(r => {
+                console.log(r.data);
+                this.$store.state.friendCount = r.data.count;
+            })
+        },
+        getCountPosts(){
+            api.get('/api/posts/my').then(r => {
+                 this.$store.state.myPostsCount = r.data.count;
+            });
         }
     }
 }
@@ -121,12 +144,17 @@ aside{
     height: 109px;
     background-image: url("/img/cover-profile.png");
     background-size: cover;
+    border-radius: 8px 8px 0 0;
 }
 .mini-profile img {
     position: relative;
-    width: 150px;
+    width: 135px;
+    height: 150px;
+    top: 15px;
     margin-top: -79px;
     z-index: 2;
+    border-radius: 100px;
+    object-fit: cover;
 }
 .mini-profile h1 {
     font-style: normal;

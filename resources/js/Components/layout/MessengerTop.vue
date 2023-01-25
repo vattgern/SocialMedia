@@ -1,47 +1,20 @@
 <template>
     <div class="navigation-friends">
         <ul>
-            <li class="active-li list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
-            </li>
-            <li class="list">
-                <span class="icon">
-                    <img src="/img/profile-img.png" alt="No Ethernet">
-                </span>
-                <span class="text">Юрий Тишков</span>
+<!--            <li class="active-li list">-->
+<!--                <span class="icon">-->
+<!--                    <img src="/img/profile-img.png" alt="No Ethernet">-->
+<!--                </span>-->
+<!--                <span class="text">Юрий Тишков</span>-->
+<!--            </li>-->
+            <li v-for="room in rooms" :key="room" :id="room.id" @click="activeLink(room)" :class="room.activeTab ? 'active-li list' : 'list'">
+                <router-link :to="{ name: 'chat', params: { id:room.id } }">
+                    <span class="icon">
+                        <img src="/img/profile-img.png" alt="No Ethernet">
+                    </span>
+                    <span class="text" v-if="room.participants[0].user.id === this.$store.state.user.id">{{ room.participants[0].userSecond.name }}</span>
+                    <span class="text" v-else>{{ room.participants[0].user.name }}</span>
+                </router-link>
             </li>
             <div class="indicator"></div>
         </ul>
@@ -49,22 +22,48 @@
 </template>
 
 <script>
+import api from "../../api";
+
 export default {
     name: "MessengerTop",
     data(){
         return {
-
+            rooms: [],
+            list: [],
         }
     },
     mounted(){
-        const list = document.querySelectorAll('.list');
-        function activeLink(){
-            list.forEach((item)=>
-                item.classList.remove('active-li'));
-            this.classList.add('active-li');
+        this.getUser();
+        this.getRooms();
+        console.log(this.rooms);
+        // list.forEach((item)=> item.classList.remove('active-li'));
+        // elem.classList.add('active-li');
+    },
+    methods:{
+        getUser(){
+            api.get('/api/me').then(r => {
+                this.$store.state.user = r.data;
+            })
+        },
+        getRooms(){
+            api('/api/rooms').then(response => {
+                let rooms = response.data.data;
+                rooms.forEach((room, index) => {
+                    for(let i=0;i<room.participants.length; i++){
+                        if(room.participants[i].user.id === this.$store.state.user.id || room.participants[i].userSecond.id === this.$store.state.user.id){
+                            room.activeTab = false;
+                            this.rooms.push(room);
+                        }
+                    }
+                });
+            })
+        },
+        activeLink(room){
+            this.rooms.forEach(room => {
+                room.activeTab = false;
+            })
+            room.activeTab = true;
         }
-        list.forEach((item)=>
-            item.addEventListener('click', activeLink));
     }
 }
 </script>
@@ -97,6 +96,9 @@ export default {
     width: 15%;
     height: 100%;
     z-index: 2;
+}
+.navigation-friends ul a{
+    text-decoration: none;
 }
 .navigation-friends ul li .icon img{
     position: relative;

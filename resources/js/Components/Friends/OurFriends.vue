@@ -1,7 +1,7 @@
 <template>
     <div class="field-our-friends">
         <div class="one-people" v-for="(friend, index) in friends" :key="index">
-            <img src="/img/second-profile-img.png" alt="No Ethernet">
+            <img :src="friend.friend.avatar" alt="No Ethernet">
             <div>
                 <h1>{{friend.friend.name}}</h1>
                 <p>Астрахань</p>
@@ -20,7 +20,6 @@
                 </svg>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -36,6 +35,7 @@ export default {
         deleteFriend(id, index){
             api.delete(`/api/friends/${id}`).then(r => {
                // console.log(r.data);
+                this.$store.state.friendsCount--;
                this.friends.splice(index, 1);
             });
         }

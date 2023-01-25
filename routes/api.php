@@ -8,6 +8,8 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserOfflineController;
+use App\Http\Controllers\UserOnlineController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,13 +25,22 @@ use Illuminate\Support\Facades\Route;
 
 // Авторизация
 Route::middleware('auth:sanctum')->group(function () {
+    // Все МОИ посты
+    Route::get('/posts/my', [PostController::class, 'allMyPosts']);
+    Route::put('/user/{user}/online', [UserOnlineController::class]);
+    Route::put('/user/{user}/offline', [UserOfflineController::class]);
+
     Route::get('/me', [AuthController::class, 'me']);
     Route::get('/logout', [AuthController::class, 'logout']);
 
+    // Изменения профиля
+    Route::post('/user/update', [UserController::class, 'update']);
     // Друзья
     Route::controller(FriendController::class)->group(function () {
         // Все друзья
         Route::get('/friends', 'all');
+        // Кол-во друзей
+        Route::get('/friends/count', 'countFriends');
         // Только одного друга
 //        Route::get('/friends/{id}', 'index');
         // Отправить заявку в друзья
@@ -69,6 +80,7 @@ Route::post('/signIn', [AuthController::class, 'signIn']);
 // Посты
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'all');
+    // Все мои посты
     Route::get('/posts/{id}', 'index');
     Route::put('/posts/{id}', 'update');
 });

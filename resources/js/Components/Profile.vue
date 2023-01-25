@@ -1,9 +1,10 @@
 <template>
     <section class="main-content-profile">
         <div class="profile">
-            <div class="cover-profile"></div>
+            <div class="cover-profile"
+                 :style="`background: url('${this.$store.state.user.background}'); background-size:cover; background-repeat: no-repeat; background-position: 50% 25%;`"></div>
             <div class="bottom-div-profile">
-                <img src="/img/profile-img.png" alt="No Ethernet">
+                <img :src="this.$store.state.user.avatar" alt="No Ethernet">
                 <div>
                     <h1>{{ this.$store.state.user.name }}</h1>
                     <p>Астрахань</p>
@@ -12,7 +13,7 @@
         </div>
         <div class="main-content-profile-bottom">
             <CreatePost></CreatePost>
-            <Post v-if="this.$store.state.posts" v-for="(post, index) in this.$store.state.posts"
+            <Post v-if="this.$store.state.myPosts" v-for="(post, index) in this.$store.state.myPosts"
                   :post="post"
                   :index="index"/>
         </div>
@@ -31,6 +32,7 @@ export default {
         CreatePost,
     },
     mounted(){
+        this.getUser();
         this.getPosts();
         // const selectSingle = document.querySelector('.__select');
         // const selectSingle_title = selectSingle.querySelector('.__select__title');
@@ -54,6 +56,12 @@ export default {
         // }
     },
     methods: {
+        getUser(){
+            api.get('/api/me').then(r => {
+                this.$store.state.user = r.data;
+                console.log(this.$store.state.user);
+            })
+        },
         openCreatePost(){
             document.querySelector('.new-post').classList.add('active-post');
         },
@@ -62,9 +70,10 @@ export default {
             document.querySelector('.new-post').classList.remove('active-post');
         },
         getPosts(){
-            api.get('/api/posts').then(response => {
-                console.log(response.data.data);
-                this.$store.state.posts = response.data.data;
+            api.get('/api/posts/my').then(response => {
+                console.log('FKоылдаоывдла');
+                console.log(response.data);
+                this.$store.state.myPosts = response.data.data;
             });
         }
     }
@@ -87,11 +96,11 @@ html{
     border-radius: 8px;
 }
 .cover-profile{
-    background: url("/img/cover-profile.png");
     width: 100%;
     height: 172px;
-    background-size: cover;
     background-repeat: no-repeat;
+    background-position: bottom;
+    border-radius: 8px 8px 0 0;
 }
 .bottom-div-profile{
     display: flex;
@@ -106,6 +115,9 @@ html{
 .bottom-div-profile img{
     width: 175px;
     margin-top: -103px;
+    border-radius: 100px;
+    object-fit: cover;
+    object-position: center;
 }
 .bottom-div-profile div{
     margin-top: 18px;

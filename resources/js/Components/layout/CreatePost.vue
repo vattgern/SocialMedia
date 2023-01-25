@@ -4,7 +4,7 @@
     </div>
     <div class="new-post" >
         <div @click="openCreatePost">
-            <img src="/img/profile-img.png" alt="No Ethernet">
+            <img :src="this.$store.state.user.avatar" alt="No Ethernet">
             <textarea v-model="textPost" cols="30" rows="10" placeholder="Добавить новый пост"></textarea>
             <img @click="OpenDownloadImg" src="/img/photo-icon.png" alt="No Ethernet">
         </div>
@@ -109,14 +109,21 @@
                 this.textPost = '';
                 this.dropzone.clear;
                 api.post('/api/posts/create', fd).then(r => {
+                    this.$store.state.myPostsCount++;
                     this.getPosts();
                 });
             },
             getPosts(){
-                api.get('/api/posts').then(response => {
-                    console.log(response.data.data);
-                    this.$store.state.posts = response.data.data;
-                });
+                if(this.$route.name === 'profile'){
+                    api.get('/api/posts/my').then(response => {
+                        this.$store.state.myPosts = response.data.data
+                    })
+                } else {
+                    api.get('/api/posts').then(response => {
+                        this.$store.state.posts = response.data.data
+                    })
+                }
+
             }
         }
     }
@@ -169,6 +176,7 @@
     .new-post img:first-child{
         width: 45px;
         height: 45px;
+        border-radius: 50px;
     }
     .new-post textarea{
         width: 85%;
