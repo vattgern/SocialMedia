@@ -16,14 +16,21 @@
             </div>             
         </div>
         <p>В Ульяновской области нашли самого одинокого мужчину. 64-летний Геннадий Никифоров с 2008 года живет в полном одиночестве в опустевшей деревне Языковка. Пенсионер не хочет покидать мертвое село — у него есть котейка, и ему норм.</p>
-        <img src="img\image-post.png" alt="No Ethernet">
+        <div class="img-post">
+            <img src="img\image-post.png" alt="No Ethernet">
+            <img src="img\image-post.png" alt="No Ethernet">
+            <img src="img\image-post.png" alt="No Ethernet">
+        </div>
     </div>
 </template>
 
 <script>
 
 let f = true;
-    export default {
+export default {
+    mounted(){
+        this.CountImg();
+        },
         methods:{
             
             activeMenu(){
@@ -37,8 +44,22 @@ let f = true;
                     f = true;
                 }
                 
+            },
+            CountImg() {
+                let count = document.querySelector('.img-post').childNodes.length;
+                if (count == 1) {
+                    document.querySelector('.img-post img:first-child').classList.remove('no-one-picture');
+                    document.querySelector('.img-post img:first-child').classList.add('one-picture');
+                } else {
+                    document.querySelector('.img-post img:first-child').classList.remove('one-picture');
+                    document.querySelector('.img-post img:first-child').classList.add('no-one-picture');
+                }
             }
+    },
+    data() {
+        return {
         }
+    }
     }
 </script>
 
@@ -131,11 +152,48 @@ let f = true;
     position: relative;
     z-index: 2;
 }
-.my-post > img{
+.one-picture{
     display: flex;
     flex-direction: column;
     align-items: center;
     object-fit: cover;
-    max-width: 680px;
+    max-width: 610px;
+    transition: 400ms;
+}
+/*
+.my-post .img-post img:hover{
+    position: relative;
+    z-index: 5;
+    transform: scale(1.2);
+}
+.img-post{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 630px;
+}
+*/
+
+.no-one-picture {
+    object-fit: cover;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.img-post {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 630px;
+}
+.my-post .img-post img:nth-child(2) {
+    object-fit: cover;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.my-post .img-post img:nth-child(3) {
+    object-fit: cover;
+    max-width: 610px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 </style>

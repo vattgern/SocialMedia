@@ -107,7 +107,7 @@ export default {
     width: 760px;
     height: 600px;
     background-color: var(--second-bg-color);
-    z-index: 1000;
+    z-index: 10000;
     border-radius: 14px;
 }
 .download-img-back-2 {

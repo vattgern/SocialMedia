@@ -212,6 +212,20 @@
             </div>
           </div>
         </div>
+        <div class="friends-switch">
+          <div>
+            <p>Мои друзья</p>
+            <div class="point"></div>
+          </div>
+          <div>
+            <p>Поиск людей</p>
+            <div></div>
+          </div>
+          <div>
+            <p>Заявки в друзья</p>
+            <div></div>
+          </div>
+        </div>
       </aside>
 </template>
 
@@ -239,6 +253,7 @@
   }
   
   .categories {
+    display: none;
     position: fixed;
     width: 360px;
     margin-top: 220px;
@@ -357,4 +372,38 @@
   }
   
   /* aside-right section close */
+
+  .friends-switch{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    margin-top: 220px;
+    width: 360px;
+    background-color: var(--second-bg-color);
+    border-radius: 9px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .friends-switch > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    cursor: pointer;
+  }
+  .friends-switch > div p{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--second-txt-color);
+  }
+   .point{
+    width: 12px;
+    height: 12px;
+    background-color: var(--second-color);
+    border-radius: 50px;
+   }
 </style>
