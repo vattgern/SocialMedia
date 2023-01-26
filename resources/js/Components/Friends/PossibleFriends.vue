@@ -1,11 +1,13 @@
 <template>
     <div class="field-our-friends">
         <div class="one-people" v-for="(user, index) in users" :key="index">
-            <img :src="user.avatar" alt="No Ethernet">
-            <div>
-                <h1>{{ user.name }}</h1>
-                <p>Астрахань</p>
-            </div>
+            <router-link :to="{ name:'anotherUser', params: {id: user.id} }">
+                <img :src="user.avatar" alt="No Ethernet">
+                <div>
+                    <h1>{{ user.name }}</h1>
+                    <p>Астрахань</p>
+                </div>
+            </router-link>
             <div class="border-svg" @click="sendRequestFriend(user.id, index)">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="9.16667" cy="5.50001" r="3.66667" fill="#E5E5E5" />
@@ -58,10 +60,16 @@ export default {
     align-items: center;
     margin-bottom: 30px;
 }
+.one-people a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 .one-people img {
     width: 50px;height: 50px;
     border-radius: 100px;
+    object-fit: cover;
 }
 
 .one-people div {

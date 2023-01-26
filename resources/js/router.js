@@ -7,6 +7,7 @@ import Messenger from "./Components/Messenger.vue";
 import Chat from './Components/Chat.vue';
 import Friends from './Components/Friends.vue';
 import ProfileEdit from "./Components/ProfileEdit.vue";
+import User from './Components/User.vue';
 
 export default createRouter({
    history: createWebHistory(),
@@ -46,5 +47,10 @@ export default createRouter({
            name: 'profileEdit',
            component: ProfileEdit
        },
+       {
+           path: '/user/profile/:id',
+           name: 'anotherUser',
+           component: User
+       }
    ],
 });

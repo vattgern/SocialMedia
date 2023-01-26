@@ -10,7 +10,9 @@
                 </svg>
                 <router-link :to="{ name: 'messenger' }">Вернуться назад</router-link>
             </div>
-            <h1>{{ this.friend.name }} - {{this.friend.status}}</h1>
+            <router-link :to="{ name: 'anotherUser', params: {id: friend.id} }">
+                <h1>{{ this.friend.name }} - {{this.friend.status}}</h1>
+            </router-link>
             <img :src="this.friend.avatar" alt="No Ethernet">
         </div>
         <div class="field">

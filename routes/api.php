@@ -79,6 +79,7 @@ Route::post('/signUp', [AuthController::class, 'signUp']);
 Route::post('/signIn', [AuthController::class, 'signIn']);
 // Посты
 Route::controller(PostController::class)->group(function () {
+    Route::get('/posts/all/{id}','allPostsUser');
     Route::get('/posts', 'all');
     // Все мои посты
     Route::get('/posts/{id}', 'index');
