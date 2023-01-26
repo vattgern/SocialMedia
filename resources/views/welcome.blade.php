@@ -48,6 +48,15 @@ body {
   justify-content: space-between;
   padding-top: 25px;
 }
+@media screen and (max-width: 420px){
+  .container {
+  width: 100vw;
+  margin: 0 auto;
+}
+main{
+  width: 100%;
+}
+}
         </style>
         @vite('resources/css/app.css')
     </head>

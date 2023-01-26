@@ -693,4 +693,10 @@ export default {
     background-color: var(--second-color);
     border-radius: 50px;
    }
+
+   @media screen and (max-width: 420px) {
+    .right-aside{
+      display: none;
+    }
+   }
 </style>

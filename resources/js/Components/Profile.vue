@@ -104,4 +104,31 @@ html{
 }
 
 /* main section close */
+@media screen and (max-width: 420px){
+  .main-content-profile{
+    width: 100%;
+  }
+    .bottom-div-profile {
+      padding-left: 30px;
+    }
+  
+    .bottom-div-profile img {
+      width: 125px;
+      height: 125px;
+      margin-top: -73px;
+    }
+  
+    .bottom-div-profile div {
+      margin-top: 10px;
+    }
+  
+    .bottom-div-profile div h1 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+  
+    .bottom-div-profile div p {
+      font-size: 14px;
+    }
+}
 </style>

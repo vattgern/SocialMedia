@@ -177,4 +177,10 @@ item.addEventListener('click', activeLink));
 .navigation-friends ul li:nth-child(7).active-li ~ .indicator{
     transform: translateX(calc(103px * 6));
 }
+
+@media screen and (max-width: 420px){
+    .navigation-friends{
+        display: none;
+    }
+}
 </style>
