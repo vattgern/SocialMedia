@@ -34,6 +34,8 @@ export default {
     mounted(){
         this.getUser();
         this.getPosts();
+        this.getCountFriends();
+        this.getCountPosts();
         // const selectSingle = document.querySelector('.__select');
         // const selectSingle_title = selectSingle.querySelector('.__select__title');
         // const selectSingle_labels = selectSingle.querySelectorAll('.__select__label');
@@ -59,21 +61,27 @@ export default {
         getUser(){
             api.get('/api/me').then(r => {
                 this.$store.state.user = r.data;
-                console.log(this.$store.state.user);
             })
         },
         openCreatePost(){
             document.querySelector('.new-post').classList.add('active-post');
         },
         closeCreatePost(){
-            console.log('asdgasdhj')
             document.querySelector('.new-post').classList.remove('active-post');
         },
         getPosts(){
             api.get('/api/posts/my').then(response => {
-                console.log('FKоылдаоывдла');
-                console.log(response.data);
                 this.$store.state.myPosts = response.data.data;
+            });
+        },
+        getCountFriends(){
+            api.get('/api/friends/count').then(r => {
+                this.$store.state.friendCount = r.data.count;
+            })
+        },
+        getCountPosts(){
+            api.get('/api/posts/my').then(r => {
+                this.$store.state.myPostsCount = r.data.count;
             });
         }
     }

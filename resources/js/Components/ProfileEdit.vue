@@ -78,7 +78,6 @@ export default {
         getUser(){
             api.get('/api/me').then(r => {
                 this.$store.state.user = r.data;
-                console.log(this.$store.state.user);
                 let name = this.$store.state.user.name;
                 name = name.split(' ');
                 this.firstName = name[0];
@@ -129,7 +128,6 @@ export default {
                 fd.append('avatar', file);
             })
             api.post('/api/user/update',fd).then(r=>{
-               console.log(r.data);
                this.getUser();
             });
             // this.city = '';

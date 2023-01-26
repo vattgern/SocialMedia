@@ -7,8 +7,10 @@ export default createStore({
             tabFriends: 'friend',
             posts: [],
             myPosts: [],
+            newsPosts: [],
             friendsCount: 0,
             myPostsCount: 0,
+            myCategories: [],
        }
    }
 });

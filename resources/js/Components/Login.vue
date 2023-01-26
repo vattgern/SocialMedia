@@ -77,7 +77,6 @@ export default {
     },
     methods:{
         signIn(){
-            console.log(this.login);
             axios.get('/sanctum/csrf-cookie').then(r => {
                 if(localStorage.getItem('token')){
                     this.$router.push({
@@ -120,7 +119,7 @@ export default {
                                 window.localStorage.setItem('token', response.data['access_token']);
                                 this.getMe();
                                 this.$router.push({
-                                    name: 'profile',
+                                    name: 'category',
                                 })
                             }
                         });

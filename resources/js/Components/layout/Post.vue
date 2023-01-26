@@ -7,7 +7,6 @@
                     <h1>{{ post.author.name }}</h1>
                 </div>
             </router-link>
-
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" @click="dropMenu">
                 <path d="M12 17C13.1046 17 14 17.8954 14 19C14 20.1046 13.1046 21 12 21C10.8954 21 10 20.1046 10 19C10 17.8954 10.8954 17 12 17Z" fill="#E5E5E5"/>
                 <path d="M12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10Z" fill="#E5E5E5"/>
@@ -18,8 +17,11 @@
                 <button @click.prevent="deletePost(post.id)">Удалить</button>
             </div>
         </div>
+        <p class="category">{{post.category.name}}</p>
         <p>{{ post.content }}</p>
-        <img v-for="image in post.images" :src="'/storage/'+image.url" alt="No Ethernet">
+        <div class="img-post">
+            <img :class="post.images.length === 1 ? 'one-picture' : 'no-one-picture'" v-for="image in post.images" :src="'/storage/'+image.url" alt="No Ethernet">
+        </div>
     </div>
 </template>
 
@@ -35,10 +37,35 @@ import api from "../../api";
                 menu: false,
             }
         },
-        mounted() {
-            console.log(this.$route.name);
-        },
         methods:{
+            getMyPosts(){
+                api.get('/api/posts/my').then(response => {
+                    this.$store.state.myPosts = response.data.data;
+                });
+            },
+            getPosts(){
+                api.get('/api/posts').then(response => {
+                    this.$store.state.posts = response.data.data;
+                    this.setNewsPosts();
+                });
+            },
+            setNewsPosts(){
+                let posts = this.$store.state.posts;
+                posts.forEach((post, index) => {
+                    let cat = this.myCategories;
+                    for (let i=0; i < cat.length; i++){
+                        if(post.id === cat[i].id){
+                            this.$store.state.newsPosts.push(post);
+                        }
+                    }
+                });
+            },
+            getLike(){
+                api.get('/api/categories/my').then(r => {
+                    this.myCategories = r.data.data;
+                    this.$store.state.myCategories = r.data.data;
+                })
+            },
             activeMenu(){
                 if(this.menu){
                     document.querySelector('.menu-drop').style.right = 20 + 'px';
@@ -60,7 +87,10 @@ import api from "../../api";
                     if(this.$route.name === 'profile'){
                         this.$store.state.myPosts.splice(this.index, 1);
                     } else {
-                        this.$store.state.posts.splice(this.index, 1);
+                        // this.$store.state.posts.splice(this.index, 1);
+                        this.getLike();
+                        this.getMyPosts();
+                        this.getPosts();
                     }
                 });
             },
@@ -69,6 +99,12 @@ import api from "../../api";
 </script>
 
 <style lang="css" scoped>
+.category{
+    border: 2px #686FFD solid;
+    padding: 10px 25px;
+    border-radius: 15px;
+    background-color: #686FFD;
+}
 .my-post{
     position: relative;
     display: flex;
@@ -160,11 +196,42 @@ import api from "../../api";
     position: relative;
     z-index: 2;
 }
-.my-post > img{
+.one-picture{
     display: flex;
     flex-direction: column;
     align-items: center;
     object-fit: cover;
-    max-width: 680px;
+    max-width: 610px;
+    transition: 400ms;
+}
+.no-one-picture {
+    object-fit: cover;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+/*.my-post > img{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    object-fit: cover;*/
+/*    max-width: 680px;*/
+/*}*/
+.img-post {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 630px;
+}
+.my-post .img-post img:nth-child(2) {
+    object-fit: cover;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.my-post .img-post img:nth-child(3) {
+    object-fit: cover;
+    max-width: 610px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 </style>

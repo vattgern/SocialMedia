@@ -10,9 +10,7 @@
                 </svg>
                 <router-link :to="{ name: 'messenger' }">Вернуться назад</router-link>
             </div>
-            <router-link :to="{ name: 'anotherUser', params: {id: friend.id} }">
-                <h1>{{ this.friend.name }} - {{this.friend.status}}</h1>
-            </router-link>
+            <h1>{{ this.friend.name }} - {{ this.friend.status }}</h1>
             <img :src="this.friend.avatar" alt="No Ethernet">
         </div>
         <div class="field">
@@ -61,8 +59,8 @@ export default {
         }
     },
     mounted() {
-        this.getRoom();
         this.getUser();
+        this.getRoom();
         this.fetchMessages(this.idRoom);
         this.listenStatus();
         // Слушать отправку сообщения
@@ -72,12 +70,11 @@ export default {
                     message: e.message.message,
                     'user_id': e.user.id,
                 });
-                console.log(e);
             });
-        console.log(this.friend);
     },
     methods: {
         getRoom(){
+            this.getUser();
             api.get(`/api/rooms/${this.idRoom}`).then(r => {
                 let users = r.data.data.participants[0];
                 if(users.user.id === this.$store.state.user.id){
@@ -114,7 +111,6 @@ export default {
             api.get(`/api/room/${id}/messages`).then(response => {
                 this.messages = [];
                 this.messages = response.data.data.messages;
-                console.log(this.messages);
             });
         },
         sendMessage(id){
@@ -123,7 +119,6 @@ export default {
                 'room_id': id,
             })
                 .then(response => {
-                    console.log(response.data);
                 });
             this.textMessage = '';
         }

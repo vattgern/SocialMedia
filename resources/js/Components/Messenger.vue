@@ -6,17 +6,19 @@
         </div>
         <div class="bottom-content-main-messager">
             <!-- Это один мессенджер-->
-            <router-link v-for="room in rooms" :to="{ name: 'chat', params: { id: room.id } }">
-                <img :src="room.participants[0].user.id === this.$store.state.user.id ? room.participants[0].userSecond.avatar : room.participants[0].user.avatar" alt="No Ethernet">
-                <div>
-                    <div class="name-time">
-                        <h2 v-if="room.participants[0].user.id === this.$store.state.user.id">{{ room.participants[0].userSecond.name  }}</h2>
-                        <h2 v-else>{{ room.participants[0].user.name }}</h2>
-                        <p>14:02</p>
+            <div v-for="room in rooms">
+                <router-link :to="{ name: 'chat', params: { id: room.id } }">
+                    <img :src="room.participants[0].user.id === this.$store.state.user.id ? room.participants[0].userSecond.avatar : room.participants[0].user.avatar" alt="No Ethernet">
+                    <div>
+                        <div class="name-time">
+                            <h2 v-if="room.participants[0].user.id === this.$store.state.user.id">{{ room.participants[0].userSecond.name  }}</h2>
+                            <h2 v-else>{{ room.participants[0].user.name }}</h2>
+                            <p class="time">14:02</p>
+                        </div>
+                        <p>{{ room.messages[room.messages.length - 1].message }}</p>
                     </div>
-                    <p>В Ульяновской области нашли самого одинокого мужчину. 64-летний Геннадий Никифоров с 2008</p>
-                </div>
-            </router-link>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -53,6 +55,7 @@ export default {
                     for(let i=0;i<room.participants.length; i++){
                         if(room.participants[i].user.id === this.$store.state.user.id || room.participants[i].userSecond.id === this.$store.state.user.id){
                             this.rooms.push(room);
+                            console.log(room);
                         }
                     }
                 });
@@ -62,7 +65,6 @@ export default {
           api.get(`/api/room/${id}/messages`).then(response => {
               this.messages = [];
               this.messages = response.data.data.messages;
-              console.log(this.messages);
           });
         },
         sendMessage(id){
@@ -71,7 +73,6 @@ export default {
                 'room_id': id,
             })
                 .then(response => {
-                    console.log(response.data);
                 });
             this.textMessage = '';
         }
@@ -105,22 +106,22 @@ export default {
     padding-left: 47px;
     padding-right: 35px;
 }
-.bottom-content-main-messager > a{
+.bottom-content-main-messager a{
     display: flex;
     flex-direction: row;
     align-items: center;
     text-decoration: none;
 }
-.bottom-content-main-messager > a:not(:last-child){
+.bottom-content-main-messager  a:not(:last-child){
     margin-bottom: 40px;
 }
-.bottom-content-main-messager > a img{
+.bottom-content-main-messager a img{
     width: 50px;
     height: 50px;
     object-fit: cover;
     border-radius: 100px;
 }
-.bottom-content-main-messager > a > div{
+.bottom-content-main-messager a > div{
     display: flex;
     flex-direction: column;
     margin-left: 20px;
@@ -130,6 +131,8 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 .name-time h2{
     font-weight: 400;
@@ -145,7 +148,7 @@ export default {
     line-height: 13px;
     color: #9C9C9C;
 }
-.bottom-content-main-messager > a > div > p{
+.bottom-content-main-messager a > div > p{
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;

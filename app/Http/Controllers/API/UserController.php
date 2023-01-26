@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\Friend;
 use App\Models\User;
+use App\Models\UserCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -42,6 +43,28 @@ class UserController extends Controller
         ]);
         return response()->json([
             'message' => 'Пользователь обновлен'
+        ]);
+    }
+    public function addCategory(Request $request){
+        $categories = $request->input('categories');
+        if($categories){
+            foreach ($categories as $category) {
+                UserCategory::create([
+                    'category_id' => $category,
+                    'user_id' => Auth::id(),
+                ]);
+            }
+        }
+    }
+    public function getCategoriesM(){
+        $categories = UserCategory::all()->where('user_id', Auth::id());
+        $arr = [];
+        foreach ($categories as $category){
+            $arr[] = $category;
+        }
+        return response()->json([
+            'message' => 'Выбранные категории',
+            'data' => $arr
         ]);
     }
 }

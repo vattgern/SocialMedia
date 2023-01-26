@@ -31,6 +31,11 @@ export default {
     },
     mounted() {
         this.getUser();
+        if(this.user.id === this.$store.state.user.id){
+            this.$router.push({
+                name: 'profile'
+            })
+        }
         this.getPosts();
     },
     components: {

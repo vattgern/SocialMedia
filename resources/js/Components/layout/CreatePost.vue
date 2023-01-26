@@ -48,10 +48,12 @@
             }
         },
         mounted(){
+            this.getLike();
             this.getCategories();
             this.dropzone = new Dropzone(this.$refs.dropzone, {
                 url: '/asdjdfk',
                 autoProcessQueue: false,
+                addRemoveLinks: true,
             });
             // const selectSingle = document.querySelector('.__select');
             // const selectSingle_title = selectSingle.querySelector('.__select__title');
@@ -75,17 +77,21 @@
             // }
         },
         methods: {
+            getLike(){
+                api.get('/api/categories/my').then(r => {
+                    // this.myCategories = r.data.data;
+                    this.$store.state.myCategories = r.data.data;
+                })
+            },
             getCategories(){
                 api.get('/api/categories').then(response => {
                     this.categories = response.data.data;
                 });
             },
             openCreatePost(){
-                console.log('hello')
                 document.querySelector('.new-post').classList.add('active-post');
             },
             closeCreatePost(){
-                console.log('asdgasdhj')
                 document.querySelector('.new-post').classList.remove('active-post');
             },
             CloseDownloadImg(){
@@ -94,15 +100,14 @@
             },
             OpenDownloadImg() {
                 this.downImg = true;
-                console.log('sdfkjdfdfjsadf')
                 document.querySelector('html').style.overflowY = "hidden";
             },
             store(){
                 let fd = new FormData();
                 let files = this.dropzone.getAcceptedFiles();
                 files.forEach(file => {
-                   console.log(file);
                    fd.append('files[]', file);
+                   this.dropzone.removeFile(file);
                 });
                 fd.append('category_id', this.chosenCategory);
                 fd.append('content', this.textPost);
@@ -119,11 +124,22 @@
                         this.$store.state.myPosts = response.data.data
                     })
                 } else {
+                    api.get('/api/posts/my').then(response => {
+                        this.$store.state.myPosts = response.data.data
+                    })
                     api.get('/api/posts').then(response => {
-                        this.$store.state.posts = response.data.data
+                        this.$store.state.posts = response.data.data;
+                        let posts = this.$store.state.posts;
+                        posts.forEach((post, index) => {
+                            let cat = this.$store.state.myCategories;
+                            for (let i=0; i < cat.length; i++){
+                                if(post.id === cat[i].id){
+                                    this.$store.state.newsPosts.push(post);
+                                }
+                            }
+                        });
                     })
                 }
-
             }
         }
     }
@@ -150,6 +166,11 @@
     background-color: var(--second-bg-color);
     z-index: 1000;
     border-radius: 14px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-family: sans-serif;
 }
     /* Open create post section */
 

@@ -1,9 +1,9 @@
 <template>
-    <Header v-show="this.$route.path !== '/'"></Header>
+    <Header v-show="this.$route.path !== '/' && this.$route.path !== '/category'"></Header>
     <main>
         <router-view></router-view>
     </main>
-    <RightAside v-show="this.$route.path !== '/'"></RightAside>
+    <RightAside v-show="this.$route.path !== '/' && this.$route.path !== '/category'"></RightAside>
 </template>
 
 <script>
@@ -26,4 +26,8 @@ export default {
 </script>
 
 <style scoped>
+.dz-success-mark,
+.dz-error-mark{
+    display: none;
+}
 </style>

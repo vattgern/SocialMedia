@@ -8,6 +8,7 @@ import Chat from './Components/Chat.vue';
 import Friends from './Components/Friends.vue';
 import ProfileEdit from "./Components/ProfileEdit.vue";
 import User from './Components/User.vue';
+import Category from './Components/Category.vue';
 
 export default createRouter({
    history: createWebHistory(),
@@ -48,9 +49,14 @@ export default createRouter({
            component: ProfileEdit
        },
        {
-           path: '/user/profile/:id',
+           path: '/profile/:id',
            name: 'anotherUser',
            component: User
+       },
+       {
+           path: '/category',
+           name: 'category',
+           component: Category,
        }
    ],
 });

@@ -45,7 +45,6 @@ export default {
         },
         getFriends(){
             api.get('/api/friends').then(response => {
-                console.log(response.data);
                 this.friends = response.data.data;
                 this.$store.state.friendsCount = this.friends.length;
             })
@@ -59,7 +58,6 @@ export default {
                     }
                 })
                 this.possibleFriends = arr;
-                //console.log(this.possibleFriends);
             });
         },
         getFriendRequest(){

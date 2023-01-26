@@ -9,9 +9,24 @@
             <li :class=" tab === 'my'? 'my active-main-section-li' : 'my' "
                 @click="tab = 'my'">Мои посты</li>
         </ul>
-        <Post v-if="this.$store.state.posts" v-for="(post, index) in this.$store.state.posts"
-              :post="post"
-              :index="index"/>
+        <div v-show="tab === 'news'">
+            <Post v-if="this.$store.state.newsPosts"
+                  v-for="(post, index) in this.$store.state.newsPosts"
+                  :post="post"
+                  :index="index"/>
+        </div>
+        <div v-show="tab === 'moreNews'">
+            <Post v-if="this.$store.state.posts"
+                  v-for="(post, index) in this.$store.state.posts"
+                  :post="post"
+                  :index="index"/>
+        </div>
+        <div v-show="tab === 'my'">
+            <Post v-if="this.$store.state.myPosts"
+                  v-for="(post, index) in this.$store.state.myPosts"
+                  :post="post"
+                  :index="index"/>
+        </div>
     </section>
 </template>
 
@@ -25,6 +40,7 @@ export default {
     data(){
         return {
             tab: 'news',
+            myCategories: [],
         }
     },
     components:{
@@ -32,14 +48,38 @@ export default {
         CreatePost,
     },
     mounted() {
+        this.getLike();
+        this.getMyPosts();
         this.getPosts();
     },
     methods: {
+        getMyPosts(){
+            api.get('/api/posts/my').then(response => {
+                this.$store.state.myPosts = response.data.data;
+            });
+        },
         getPosts(){
             api.get('/api/posts').then(response => {
-                console.log(response.data.data);
                 this.$store.state.posts = response.data.data;
+                this.setNewsPosts();
             });
+        },
+        setNewsPosts(){
+            let posts = this.$store.state.posts;
+            posts.forEach((post, index) => {
+                let cats = this.$store.state.myCategories;
+                cats.forEach(cat => {
+                    if (cat.id === post.category.id) {
+                        this.$store.state.newsPosts.push(post);
+                    }
+                });
+            });
+        },
+        getLike(){
+            api.get('/api/categories/my').then(r => {
+                this.myCategories = r.data.data;
+                this.$store.state.myCategories = r.data.data;
+            })
         }
     }
 }

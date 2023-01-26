@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/{user}/online', [UserOnlineController::class]);
     Route::put('/user/{user}/offline', [UserOfflineController::class]);
 
+    Route::get('/categories/my',[UserController::class,'getCategoriesM']);
+
     Route::get('/me', [AuthController::class, 'me']);
     Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -68,11 +70,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/categories/add', [UserController::class, 'addCategory']);
     // Отправить сообщение
     Route::post('/message/create', [MessageController::class,'store']);
-    //Удаление сообщения
     Route::delete('/message/{id}', [MessageController::class,'destroy']);
-    // Создание поста
+    // Создание и удаление поста
     Route::post('/posts/create', [PostController::class, 'store']);
-    // Удаление поста
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 });
 Route::post('/signUp', [AuthController::class, 'signUp']);
@@ -88,14 +88,10 @@ Route::controller(PostController::class)->group(function () {
 // Пользователи
 Route::get('/users', [UserController::class, 'all']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+
 // Чат
-// Для ТЕСТА
-// ----------------
 Route::get('/messages', [MessageController::class,'all']);
 Route::get('/room/{id}/messages', [MessageController::class, 'getMessages']);
-// ----------------
-// Комнаты
 Route::get('/rooms', [RoomController::class, 'all']);
 Route::get('/rooms/{id}', [RoomController::class, 'index']);
-// Участники комнаты
 Route::get('/rooms/{id}/participants',[UserRoomController::class,'index']);
