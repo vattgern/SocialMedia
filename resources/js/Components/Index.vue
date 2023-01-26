@@ -1,6 +1,7 @@
 <template>
     <section class="main-section">
         <CreatePost></CreatePost>
+        <Mobile></Mobile>
         <ul>
             <li class="news active-main-section-li">Новости</li>
             <li class="more-news">Узнай больше</li>
@@ -13,6 +14,7 @@
 <script>
 import CreatePost from "./layout/CreatePost.vue";
 import Post from "./layout/Post.vue";
+import Mobile from "./layout/category-mobile.vue";
 export default {
     name: "Index",
     data(){
@@ -23,6 +25,7 @@ export default {
     components: {
         CreatePost,
         Post,
+        Mobile,
     }
 }
 </script>
@@ -44,7 +47,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 10px;
     margin-left: 10px;
 }
@@ -64,6 +67,16 @@ export default {
 .active-main-section-li{
     border-bottom: 2px solid #D17A28;
     border-radius: 1px;
+}
+@media screen and (max-width: 420px){
+    .main-section{
+        padding: 20px;
+        width: 100vw;
+    }
+    .main-section ul li{
+        font-size: 15px;
+        margin-right: 30px;
+    }
 }
 
 </style>

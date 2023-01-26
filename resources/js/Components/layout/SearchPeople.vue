@@ -54,4 +54,11 @@ export default {
     z-index: 2;
     border-radius: 12px;
 }
+@media screen and (max-width: 420px){
+    .search{
+        position: relative;
+        width: 100vw;
+        height: 40px;
+    }
+}
 </style>

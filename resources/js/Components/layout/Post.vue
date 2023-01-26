@@ -160,19 +160,6 @@ export default {
     max-width: 610px;
     transition: 400ms;
 }
-/*
-.my-post .img-post img:hover{
-    position: relative;
-    z-index: 5;
-    transform: scale(1.2);
-}
-.img-post{
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 630px;
-}
-*/
-
 .no-one-picture {
     object-fit: cover;
     max-width: 300px;
@@ -195,5 +182,34 @@ export default {
     max-width: 610px;
     margin-left: 10px;
     margin-bottom: 10px;
+}
+
+@media screen and (max-width: 420px){
+    .my-post{
+        width: 90vw;
+        padding: 20px;
+        margin-top: 30px;
+    }
+    .top-post div img{
+        width: 50px;
+    }
+    .menu-drop{
+        top: 35px;
+    }
+    .img-post {
+        max-width: 95%;
+    }
+    .my-post .img-post img:nth-child(2) {
+        max-width: 45%;
+    }
+    .my-post .img-post img:nth-child(3) {
+        max-width: 95%;
+    }
+    .one-picture{
+        max-width: 95%;
+    }
+    .no-one-picture {
+        max-width: 45%;
+    }
 }
 </style>

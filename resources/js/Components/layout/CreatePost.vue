@@ -367,5 +367,15 @@ let j = true;
               font-size: 12px;
               padding: 0 10px;
             }
+            .download-img-back{
+              height: 110vh;
+            }
+            .download-img{
+              width: 70vw;
+              height: 50vh;
+              background-color: var(--second-bg-color);
+              z-index: 1000;
+              border-radius: 14px;
+            }
        }
 </style>

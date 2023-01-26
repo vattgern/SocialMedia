@@ -69,11 +69,11 @@ export default {
         },
         OpenDownloadImgAvatar() {
             if (j == true) {
-                document.querySelector('.download-img-back').style.display = "flex";
+                document.querySelector('.download-img-back-2').style.display = "flex";
                 document.querySelector('html').style.overflowY = "hidden";
                 j = false;
             } else {
-                document.querySelector('.download-img-back').style.display = "none";
+                document.querySelector('.download-img-back-2').style.display = "none";
                 document.querySelector('html').style.overflowY = "scroll";
                 j = true;
             }
@@ -282,5 +282,57 @@ export default {
     font-size: 14px;
     line-height: 16px;
     color: var(--second-txt-color);
+}
+@media screen and (max-width: 420px){
+    .download-img-back{
+        height: 110vh;
+      }
+      .download-img{
+        width: 70vw;
+        height: 50vh;
+      }
+      .download-img-back-2{
+        height: 110vh;
+      }
+      .download-img-2{
+        width: 70vw;
+        height: 50vh;
+      }
+      .profile-edit{
+        width: 100vw;
+    }
+    .avatar-photo{
+        top: -60px;
+        left: 30px;
+        width: 120px;
+        height: 120px;
+    }
+    .name-profile-edit{
+        gap: 5px;
+        height: 80px;
+        margin-left: 50px;
+        margin-top: 10px;
+    }
+    .name-profile-edit h1{
+        font-size: 20px;
+    }
+    .name-profile-edit p{
+        font-size: 14px;
+    }
+    .field-edit{
+        margin-top: 10px;
+        margin-left: 30px;
+    }
+    .btn-in-edit-profile{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        gap: 15px;
+    }
+    .save-change{
+        padding: 0 20px;
+        height: 33px;
+        margin-right: 0px;
+    }
 }
 </style>

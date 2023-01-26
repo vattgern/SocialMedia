@@ -52,6 +52,7 @@ body {
   .container {
   width: 100vw;
   margin: 0 auto;
+  padding-top: 5px;
 }
 main{
   width: 100%;

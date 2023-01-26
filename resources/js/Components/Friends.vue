@@ -1,9 +1,9 @@
 <template>
 <!-- <SearchPeople></SearchPeople> -->
-<!-- <SearchOurFriends></SearchOurFriends> -->
+<SearchOurFriends></SearchOurFriends>
 <!-- <OurFriends></OurFriends> -->
 <!-- <PosibleFriends></PosibleFriends> -->
-<!-- <MyFriends></MyFriends> -->
+<MyFriends></MyFriends>
 </template>
 
 <script>
