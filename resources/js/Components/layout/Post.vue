@@ -234,4 +234,32 @@ import api from "../../api";
     margin-left: 10px;
     margin-bottom: 10px;
 }
+@media screen and (max-width: 420px){
+    .my-post{
+        width: 90vw;
+        padding: 20px;
+        margin-top: 30px;
+    }
+    .top-post div img{
+        width: 50px;
+    }
+    .menu-drop{
+        top: 35px;
+    }
+    .img-post {
+        max-width: 95%;
+    }
+    .my-post .img-post img:nth-child(2) {
+        max-width: 45%;
+    }
+    .my-post .img-post img:nth-child(3) {
+        max-width: 95%;
+    }
+    .one-picture{
+        max-width: 95%;
+    }
+    .no-one-picture {
+        max-width: 45%;
+    }
+}
 </style>

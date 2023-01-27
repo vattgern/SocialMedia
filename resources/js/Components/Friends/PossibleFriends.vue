@@ -128,4 +128,13 @@ export default {
     color: var(--second-txt-color);
     margin-left: 15px;
 }
+@media screen and (max-width: 420px){
+    .field-our-friends{
+        width: 100vw;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: var(--second-bg-color);
+        border-radius: 14px;
+    }
+}
 </style>

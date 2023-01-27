@@ -46,7 +46,17 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                padding-top: 25px;
+                padding-top: 5px;
+            }
+            @media screen and (max-width: 420px){
+                .container {
+                    width: 100vw;
+                    margin: 0 auto;
+                    padding-top: 5px;
+                }
+                main{
+                    width: 100%;
+                }
             }
         </style>
         @vite('resources/css/app.css')

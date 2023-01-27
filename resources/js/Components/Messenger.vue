@@ -114,6 +114,7 @@ export default {
 }
 .bottom-content-main-messager  a:not(:last-child){
     margin-bottom: 40px;
+    width: 100%;
 }
 .bottom-content-main-messager a img{
     width: 50px;
@@ -128,6 +129,7 @@ export default {
     gap: 10px;
 }
 .name-time{
+    width: 630px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -155,6 +157,20 @@ export default {
     font-size: 13px;
     line-height: 151.69%;
     color: var(--second-txt-color);
+}
+@media screen and (max-width: 420px) {
+    .main-messager {
+        width: 100vw;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .bottom-content-main-messager {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .name-time h2 {
+        font-size: 14px;
+    }
 }
 </style>
 

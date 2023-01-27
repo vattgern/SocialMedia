@@ -1,6 +1,7 @@
 <template>
     <section class="main-section">
         <CreatePost></CreatePost>
+        <CategoryMoblie></CategoryMoblie>
         <ul>
             <li :class=" tab === 'news' ? 'news active-main-section-li' : 'news'"
                 @click="tab = 'news'">Новости</li>
@@ -33,6 +34,7 @@
 <script>
 import Post from './layout/Post.vue';
 import CreatePost from "./layout/CreatePost.vue";
+import CategoryMoblie from "./layout/Category-moblie.vue";
 import api from "../api";
 
 export default {
@@ -46,6 +48,7 @@ export default {
     components:{
         Post,
         CreatePost,
+        CategoryMoblie,
     },
     mounted() {
         this.getLike();
@@ -119,5 +122,15 @@ export default {
 .active-main-section-li{
     border-bottom: 2px solid var(--second-color);
     border-radius: 1px;
+}
+@media screen and (max-width: 420px){
+    .main-section{
+        padding: 20px;
+        width: 100vw;
+    }
+    .main-section ul li{
+        font-size: 15px;
+        margin-right: 30px;
+    }
 }
 </style>

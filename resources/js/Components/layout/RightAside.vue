@@ -262,6 +262,11 @@
     line-height: 20px;
     color: var(--second-txt-color);
 }
+@media screen and (max-width: 420px) {
+    .right-aside{
+        display: none;
+    }
+}
 .point{
     width: 12px;
     height: 12px;

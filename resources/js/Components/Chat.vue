@@ -285,4 +285,34 @@ export default {
     bottom: 25px;
     cursor: pointer;
 }
+@media screen and (max-width: 420px){
+    .chat{
+        width: 100vw;
+    }
+    .input-message{
+        padding: 10px;
+    }
+    .input-message input{
+        width: 98%;
+        height: 43px;
+    }
+    .input-message button{
+        right: 30px;
+        bottom: 15px;
+    }
+    .field{
+        height: 82vh;
+        padding: 15px 15px;
+    }
+    .back-to-messager{
+        height: 40px;
+    }
+    .back-to-messager p{
+        font-size: 10px;
+        margin-left: 5px;
+    }
+    .top-chat{
+        padding: 10px 10px;
+    }
+}
 </style>

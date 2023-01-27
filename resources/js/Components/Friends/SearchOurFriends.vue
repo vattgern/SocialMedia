@@ -13,7 +13,7 @@
 <script>
 
 export default {
-    
+
 }
 </script>
 
@@ -53,5 +53,10 @@ export default {
     cursor: pointer;
     z-index: 2;
     border-radius: 12px;
+}
+.search{
+    position: relative;
+    width: 100vw;
+    height: 40px;
 }
 </style>

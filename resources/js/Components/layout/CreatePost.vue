@@ -389,4 +389,61 @@
         background-color: #D8093A !important;
         color: #ffffff;
       }
+.download-img-back{
+    height: 110vh;
+}
+.download-img{
+    width: 70vw;
+    height: 50vh;
+    background-color: var(--second-bg-color);
+    z-index: 1000;
+    border-radius: 14px;
+}
+@media screen and (max-width: 420px){
+    .new-post {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+    .new-post img:first-child{
+        width: 30px;
+        height: 30px;
+    }
+    .new-post textarea {
+        width: 85%;
+        height: 60%;
+        font-size: 12px;
+        padding-top: 5px;
+        padding-left: 10px;
+    }
+    .new-post img:last-child {
+        width: 30px;
+        height: 35px;
+        cursor: pointer;
+    }
+    .active-post{
+        height: 182px;
+        padding-top: 20px;
+    }
+    .__select{
+        display: none;
+    }
+    .active-post .publish {
+        width: auto;
+        height: 30px;
+        font-size: 12px;
+        padding: 0 10px;
+    }
+
+    .active-post .close-btn {
+        width: auto;
+        height: 30px;
+        font-size: 12px;
+        padding: 0 10px;
+    }
+}
 </style>

@@ -1,9 +1,9 @@
 <template>
-    <Header v-show="this.$route.path !== '/' && this.$route.path !== '/category'"></Header>
+    <Header v-if="this.$route.path !== '/' && this.$route.path !== '/category'"></Header>
     <main>
         <router-view></router-view>
     </main>
-    <RightAside v-show="this.$route.path !== '/' && this.$route.path !== '/category'"></RightAside>
+    <RightAside v-if="this.$route.path !== '/' && this.$route.path !== '/category'"></RightAside>
 </template>
 
 <script>

@@ -112,7 +112,7 @@ export default {
         display: flex;
         flex-direction: row;
 
-        font-family: sans-serif;
+        font-family: 'Comfortaa', sans-serif;
 
         background-color: #2B3241;
         border: 2px solid #B1B2CF;

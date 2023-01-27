@@ -5,14 +5,14 @@
                  :style="`background: url('${this.$store.state.user.background}'); background-size:cover; background-repeat: no-repeat; background-position: 50% 25%;`"></div>
             <img :src=" this.$store.state.user.avatar" alt="No Ethernet" />
             <h1>{{ this.$store.state.user.name }}</h1>
-            <h2>Астрахань</h2>
+            <h2 v-show="this.$store.state.user.city !== null">{{ this.$store.state.user.city }}</h2>
             <div class="friends-posts">
                 <div>
-                    <h3>Друзей</h3>
+                    <h3>Друзья</h3>
                     <p>{{ this.$store.state.friendsCount }}</p>
                 </div>
                 <div>
-                    <h3>Постов</h3>
+                    <h3>Посты</h3>
                     <p>{{ this.$store.state.myPostsCount }}</p>
                 </div>
             </div>
@@ -80,6 +80,43 @@
 <!--            </div>-->
 <!--        </div>-->
     </aside>
+    <div class="nav-mobile" v-show="this.$route.name !== 'chat'">
+        <ul>
+            <li class="active-li list">
+                <router-link :to="{ name: 'profile' }">
+          <span class="icon">
+            <img src="/img/Home.png" alt="No Ethernet" />
+          </span>
+                    <span class="text">Моя страница</span>
+                </router-link>
+            </li>
+            <li class="list">
+                <router-link :to="{ name: 'main' }">
+          <span class="icon">
+            <img src="/img/News.png" alt="No Ethernet" />
+          </span>
+                    <span class="text">Новости</span>
+                </router-link>
+            </li>
+            <li class="list">
+                <router-link :to="{ name: 'messenger' }">
+          <span class="icon">
+            <img src="/img/Messaging.png" alt="No Ethernet" />
+          </span>
+                    <span class="text">Сообщения</span>
+                </router-link>
+            </li>
+            <li class="list">
+                <router-link :to="{ name: 'friends' }">
+          <span class="icon">
+            <img src="/img/People.png" alt="No Ethernet" />
+          </span>
+                    <span class="text">Друзья</span>
+                </router-link>
+            </li>
+            <div class="indicator"></div>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -91,6 +128,15 @@ export default {
         this.getUser();
         this.getCountFriends();
         this.getCountPosts();
+
+        const list = document.querySelectorAll('.list');
+        function activeLink(){
+            list.forEach((item)=>
+                item.classList.remove('active-li'));
+            this.classList.add('active-li');
+        }
+        list.forEach((item)=>
+            item.addEventListener('click', activeLink));
     },
     methods: {
         logout(){
@@ -143,6 +189,9 @@ aside{
     background-image: url("/img/cover-profile.png");
     background-size: cover;
     border-radius: 8px 8px 0 0;
+}
+.nav-mobile{
+    display: none;
 }
 .mini-profile img {
     position: relative;
@@ -297,6 +346,126 @@ nav ul a li:not(.first-li) {
     border: 1px solid var(--main-txt-color);
     border-radius: 4px;
     padding: 7px 7px 6px 7px;
+}
+@media screen and (max-width: 420px) {
+    aside {
+        display: none;
+    }
+    .nav-mobile{
+        position: fixed;
+        display: block;
+        width: 100vw;
+        top: 94vh;
+        left: 0;
+        z-index: 100;
+        background-color: var(--main-bg-color);
+    }
+    .nav-mobile ul {
+        position: relative;
+        display: flex;
+        width: 95%;
+        height: 60px;
+    }
+
+    .nav-mobile ul li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 25%;
+        height: 100%;
+        z-index: 1000;
+    }
+
+    .nav-mobile ul li .icon img {
+        position: relative;
+        display: block;
+        width: 30px;
+    }
+
+    .active-li .icon img {
+        transform: translateY(-32px);
+        transition: 500ms;
+        left: 10px;
+    }
+    .nav-mobile ul li.active-li:first-child .text {
+        transform: translateY(-15px);
+    }
+    .nav-mobile ul li .text {
+        position: absolute;
+        font-family: "Comfortaa";
+        font-size: 13px;
+        color: var(--second-txt-color);
+        transition: 500ms;
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+
+    .nav-mobile ul li.active-li .text {
+        width: 120px;
+        transform: translateY(-15px);
+        opacity: 1;
+        left: 0;
+    }
+
+    .indicator {
+        position: absolute;
+        top: -35px;
+        width: 70px;
+        height: 70px;
+        background-color: var(--main-bg-color);
+        border-radius: 50%;
+        left: 22px;
+        z-index: 100;
+        transition: 500ms;
+    }
+
+    .indicator::before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: transparent;
+        border-radius: 50%;
+        top: 5px;
+        left: -28px;
+        box-shadow: 15px 18px var(--main-bg-color);
+    }
+
+    .indicator::after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: transparent;
+        border-radius: 50%;
+        top: 5px;
+        right: -28px;
+        box-shadow: -15px 18px var(--main-bg-color);
+    }
+
+    .list:hover {
+        cursor: pointer;
+    }
+
+    .nav-mobile ul li:nth-child(1).active-li~.indicator {
+        transform: translateX(calc(102px * 0));
+    }
+
+    .nav-mobile ul li:nth-child(2).active-li~.indicator {
+        transform: translateX(calc(100px * 1));
+    }
+
+    .nav-mobile ul li:nth-child(3).active-li~.indicator {
+        transform: translateX(calc(99px * 2));
+    }
+
+    .nav-mobile ul li:nth-child(4).active-li~.indicator {
+        transform: translateX(calc(99px * 3));
+    }
+
 }
 
 /* Aside-left section close */
