@@ -15,7 +15,7 @@
                             <h2 v-else>{{ room.participants[0].user.name }}</h2>
                             <p class="time">14:02</p>
                         </div>
-                        <p>{{ room.messages[room.messages.length - 1].message }}</p>
+                        <p>{{ room.messages.length > 0 ? room.messages[room.messages.length - 1].message : '' }}</p>
                     </div>
                 </router-link>
             </div>
@@ -26,6 +26,7 @@
 <script>
 import api from '../api';
 import MessengerTop from './layout/MessengerTop.vue';
+import {toRaw} from "vue";
 
 export default {
     name: "Messenger",
@@ -54,7 +55,7 @@ export default {
                 rooms.forEach((room, index) => {
                     for(let i=0;i<room.participants.length; i++){
                         if(room.participants[i].user.id === this.$store.state.user.id || room.participants[i].userSecond.id === this.$store.state.user.id){
-                            this.rooms.push(room);
+                            this.rooms.push(toRaw(room));
                             console.log(room);
                         }
                     }
